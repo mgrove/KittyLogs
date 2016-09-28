@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">KittyLogs</string>
+    <string name="enter_cat">Enter cat name</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="cats_array">
+        <item>Hobbes</item>
+        <item>Flurry</item>
+        <item>Nelson</item>
+        <item>Niam</item>
+        <item>Spirit</item>
+        <item>Nina</item>
+    </string-array>
+    <string name="spinner_title">lalalala</string>
+    <string name="str_cnt_mnu_edit">Edit</string>
+    <string name="str_cnt_mnu_delete">Delete</string>
+</resources>
