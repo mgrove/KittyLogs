@@ -38,35 +38,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void removeCatFromDB(long id){
-        Log.d("id", Long.toString(id));
-
-
-        String selection = KittyLogsContract.CatsTable._ID;
         String[] selectionArgs = {Long.toString(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-//        String testQuery = "DELETE FROM cats WHERE _id = 29";
-//        String deleteQuery = "DELETE FROM " + KittyLogsContract.CatsTable.TABLE_NAME + " WHERE " + selection + "=" + Long.toString(id);
-//        Log.d("The delete query", testQuery);
         db.delete(KittyLogsContract.CatsTable.TABLE_NAME, "_id = ?", selectionArgs );
         Cursor cursor = db.rawQuery("SELECT * FROM cats", null);
         String cursorString = DatabaseUtils.dumpCursorToString(cursor);
-        Log.d("The cursor",cursorString);
-        //       String[] args = {"Aas"};
-//        db.rawQuery(testQuery, null);
         db.close();
-    }
-
-    public List<String> getCatsFromDB(){
-        List<String> cats = new ArrayList<String>();
-        String selectQuery = "SELECT * FROM " + KittyLogsContract.CatsTable.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()){
-            do {
-                cats.add(cursor.getString(1));
-            } while (cursor.moveToNext());
-        }
-        return cats;
     }
 
     public Cursor getCatsCursorFromDB(){

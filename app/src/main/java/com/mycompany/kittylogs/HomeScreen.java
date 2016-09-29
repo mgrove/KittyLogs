@@ -37,16 +37,8 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
     private Cursor aCursor;
     KLCursorAdapter aCursorAdapter;
 
-//    DBHelper aHelper = new DBHelper(getApplicationContext());
-//    List<String> cats = aHelper.getCatsFromDB();
-//    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cats);
-
-
-    //   DBHelper dbHelper = new DBHelper(this);
-    //   SQLiteDatabase db = dbHelper.getWritableDatabase();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("sanity check", "fffffffffffffffffffffffffffffffffffff");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         listView = (ListView) findViewById(cat_list);
@@ -58,7 +50,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         btnAdd = (Button) findViewById(R.id.add_cat_button);
         inputLabel = (EditText) findViewById(R.id.edit_message);
         listView.setOnItemSelectedListener(this);
-    //    loadSpinnerData();
         loadDataWithCursor();
         btnAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View arg0){
@@ -69,7 +60,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                     inputLabel.setText("");
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(inputLabel.getWindowToken(), 0);
-                   // loadSpinnerData();
                     loadDataWithCursor();
                 } else {
                     Toast.makeText(getApplicationContext(), "Enter new cat", Toast.LENGTH_SHORT).show();
@@ -86,32 +76,19 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     public boolean onContextItemSelected(MenuItem item){
-        Log.d("contextItemSelected", "aaaaaaaaaaaaaaaaaaaaaaaaaa");
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         DBHelper aHelper = new DBHelper(getApplicationContext());
-        Log.d("item ID", Integer.toString(item.getItemId()));
-        //       Log.d("R ID", Integer.toString(R.id.cnt))
         switch(item.getItemId()){
             case R.id.cnt_mnu_edit:
 
                 break;
             case R.id.cnt_mnu_delete:
-                Log.d("delete", Long.toString(info.id));
                 aHelper.removeCatFromDB(info.id);
                 aHelper.removeCatFromDB(aCursorAdapter.getItemId((int)info.id));
-                Log.d("the id", Long.toString(aCursorAdapter.getItemId((int)info.id)));
                 loadDataWithCursor();
                 break;
         }
         return true;
-    }
-
-    private void loadSpinnerData(){
-        DBHelper aHelper = new DBHelper(getApplicationContext());
-        List<String> cats = aHelper.getCatsFromDB();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cats);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        listView.setAdapter(dataAdapter);
     }
 
     private void loadDataWithCursor(){

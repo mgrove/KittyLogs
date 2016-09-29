@@ -25,7 +25,6 @@ public class KLCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor){
         TextView textViewTitle = (TextView)view.findViewById(R.id.rowTextView);
         String title = cursor.getString(cursor.getColumnIndex(KittyLogsContract.CatsTable.COLUMN_CAT_NAME));
-        String id = cursor.getString(cursor.getColumnIndex(KittyLogsContract.CatsTable._ID));
         textViewTitle.setText(title);
     }
 
