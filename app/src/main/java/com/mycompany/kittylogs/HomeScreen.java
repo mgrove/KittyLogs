@@ -80,11 +80,9 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         DBHelper aHelper = new DBHelper(getApplicationContext());
         switch(item.getItemId()){
             case R.id.cnt_mnu_edit:
-
                 break;
             case R.id.cnt_mnu_delete:
                 aHelper.removeCatFromDB(info.id);
-                aHelper.removeCatFromDB(aCursorAdapter.getItemId((int)info.id));
                 loadDataWithCursor();
                 break;
         }

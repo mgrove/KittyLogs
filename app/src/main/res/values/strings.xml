@@ -14,4 +14,6 @@
     <string name="spinner_title">lalalala</string>
     <string name="str_cnt_mnu_edit">Edit</string>
     <string name="str_cnt_mnu_delete">Delete</string>
+    <string name="edit_dialog_message">This is the message</string>
+    <string name="edit_dialog_title">This is the title</string>
 </resources>

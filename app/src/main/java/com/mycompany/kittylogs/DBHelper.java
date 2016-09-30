@@ -40,10 +40,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void removeCatFromDB(long id){
         String[] selectionArgs = {Long.toString(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(KittyLogsContract.CatsTable.TABLE_NAME, "_id = ?", selectionArgs );
-        Cursor cursor = db.rawQuery("SELECT * FROM cats", null);
-        String cursorString = DatabaseUtils.dumpCursorToString(cursor);
+        db.delete(KittyLogsContract.CatsTable.TABLE_NAME, "_id = ?", selectionArgs);
         db.close();
+    }
+
+    public void editCat(long id){
+        String[] selectionArgs;
     }
 
     public Cursor getCatsCursorFromDB(){
