@@ -1,5 +1,7 @@
 package com.mycompany.kittylogs;
 
+        import android.app.AlertDialog;
+        import android.content.DialogInterface;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.content.Context;
@@ -33,6 +35,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
     ListView listView;
     Button btnAdd;
     EditText inputLabel;
+    private static final int TEXT_ID = 0;
 
     private Cursor aCursor;
     KLCursorAdapter aCursorAdapter;
@@ -80,6 +83,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         DBHelper aHelper = new DBHelper(getApplicationContext());
         switch(item.getItemId()){
             case R.id.cnt_mnu_edit:
+                makeEditDialog(info.id, aHelper);
                 break;
             case R.id.cnt_mnu_delete:
                 aHelper.removeCatFromDB(info.id);
@@ -87,6 +91,31 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                 break;
         }
         return true;
+    }
+
+    private void makeEditDialog(final long rowID, final DBHelper aHelper){
+        AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
+        editDialogBuilder.setMessage(R.string.edit_dialog_message)
+                .setTitle(R.string.edit_dialog_title);
+        final EditText input = new EditText(this);
+        input.setId(TEXT_ID);
+        editDialogBuilder.setView(input);
+        editDialogBuilder.setPositiveButton(R.string.str_cnt_mnu_edit, new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                String value = input.getText().toString();
+                aHelper.editCatInDB(rowID,value);
+                loadDataWithCursor();
+                return;
+            }
+        });
+        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){
+                return;
+            }
+        });
+
+            AlertDialog editDialog = editDialogBuilder.create();
+        editDialog.show();
     }
 
     private void loadDataWithCursor(){

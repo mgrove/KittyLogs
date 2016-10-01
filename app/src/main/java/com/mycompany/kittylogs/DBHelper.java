@@ -44,8 +44,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void editCat(long id){
-        String[] selectionArgs;
+    public void editCatInDB(long id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] selectionArgs = {Long.toString(id)};
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, name);
+        db.update(KittyLogsContract.CatsTable.TABLE_NAME, contentValues,"_id = ?", selectionArgs);
+        db.close();
     }
 
     public Cursor getCatsCursorFromDB(){
