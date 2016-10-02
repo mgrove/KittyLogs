@@ -86,11 +86,32 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                 makeEditDialog(info.id, aHelper);
                 break;
             case R.id.cnt_mnu_delete:
-                aHelper.removeCatFromDB(info.id);
-                loadDataWithCursor();
+                makeDeleteDialog(info.id, aHelper);
+//                aHelper.removeCatFromDB(info.id);
+//                loadDataWithCursor();
                 break;
         }
         return true;
+    }
+
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper){
+        AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
+        editDialogBuilder.setMessage(R.string.delete_dialog_message)
+                .setTitle(R.string.delete_dialog_title);
+        editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                aHelper.removeCatFromDB(rowID);
+                loadDataWithCursor();
+                return;
+            }
+        });
+        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                return;
+            }
+        });
+        AlertDialog editDialog = editDialogBuilder.create();
+        editDialog.show();
     }
 
     private void makeEditDialog(final long rowID, final DBHelper aHelper){
