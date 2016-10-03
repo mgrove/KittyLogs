@@ -7,7 +7,6 @@ package com.mycompany.kittylogs;
         import android.os.Bundle;
         import android.content.Context;
         import android.database.Cursor;
-        import android.support.v7.app.ActionBarActivity;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.ContextMenu;
@@ -86,8 +85,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                 break;
             case R.id.cnt_mnu_delete:
                 makeDeleteDialog(info.id, aHelper);
-//                aHelper.removeCatFromDB(info.id);
-//                loadDataWithCursor();
                 break;
         }
         return true;
@@ -100,7 +97,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                 .setTitle(R.string.delete_dialog_title);
         editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
- //               Log.d("cat name: ", deleteMessageString);
                 aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
                 return;

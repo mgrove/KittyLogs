@@ -55,7 +55,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String getCatNameFromDB(long id){
         String[] selectionArgs = {Long.toString(id)};
-        String[] projection = {KittyLogsContract.CatsTable.COLUMN_CAT_NAME};
         SQLiteDatabase db = this.getReadableDatabase();
         String getCatQuery = "SELECT " + KittyLogsContract.CatsTable.COLUMN_CAT_NAME +
                 " FROM " + KittyLogsContract.CatsTable.TABLE_NAME +
