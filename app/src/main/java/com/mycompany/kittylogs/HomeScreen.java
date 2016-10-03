@@ -100,6 +100,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
                 .setTitle(R.string.delete_dialog_title);
         editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
+                Log.d("cat name: ", aHelper.getCatNameFromDB(rowID).toString());
                 aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
                 return;
