@@ -53,13 +53,15 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Cursor getCatNameFromDB(long id){
+    public String getCatNameFromDB(long id){
         String[] selectionArgs = {Long.toString(id)};
         String[] projection = {KittyLogsContract.CatsTable.COLUMN_CAT_NAME};
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " + KittyLogsContract.CatsTable.COLUMN_CAT_NAME +
+        String getCatQuery = "SELECT " + KittyLogsContract.CatsTable.COLUMN_CAT_NAME +
                 " FROM " + KittyLogsContract.CatsTable.TABLE_NAME +
-                " WHERE " + KittyLogsContract.CatsTable._ID + "= ?", selectionArgs);
+                " WHERE " + KittyLogsContract.CatsTable._ID + "= ?";
+        return DatabaseUtils.stringForQuery(db, getCatQuery, selectionArgs);
+
     }
 
     public Cursor getCatsCursorFromDB(){
