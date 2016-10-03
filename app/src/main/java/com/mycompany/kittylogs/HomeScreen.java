@@ -36,13 +36,13 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
     Button btnAdd;
     EditText inputLabel;
     private static final int TEXT_ID = 0;
-
     private Cursor aCursor;
     KLCursorAdapter aCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_home_screen);
         listView = (ListView) findViewById(cat_list);
 
