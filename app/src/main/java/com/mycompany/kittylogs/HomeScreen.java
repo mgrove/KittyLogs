@@ -95,11 +95,12 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
 
     private void makeDeleteDialog(final long rowID, final DBHelper aHelper){
         AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
-        editDialogBuilder.setMessage(R.string.delete_dialog_message)
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " " + aHelper.getCatNameFromDB((rowID)) + "?";
+        editDialogBuilder.setMessage(deleteMessageString)
                 .setTitle(R.string.delete_dialog_title);
         editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
-                Log.d("cat name: ", aHelper.getCatNameFromDB(rowID));
+ //               Log.d("cat name: ", deleteMessageString);
                 aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
                 return;

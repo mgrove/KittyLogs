@@ -61,7 +61,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 " FROM " + KittyLogsContract.CatsTable.TABLE_NAME +
                 " WHERE " + KittyLogsContract.CatsTable._ID + "= ?";
         return DatabaseUtils.stringForQuery(db, getCatQuery, selectionArgs);
-
     }
 
     public Cursor getCatsCursorFromDB(){
