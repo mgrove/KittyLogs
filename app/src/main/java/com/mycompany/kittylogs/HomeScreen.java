@@ -1,35 +1,35 @@
 package com.mycompany.kittylogs;
 
-        import android.app.AlertDialog;
-        import android.content.DialogInterface;
-        import android.database.DatabaseUtils;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.content.Context;
-        import android.database.Cursor;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.ContextMenu;
-        import android.view.Menu;
-        import android.view.MenuInflater;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.view.inputmethod.InputMethodManager;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.CursorAdapter;
-        import android.widget.EditText;
-        import android.widget.ListView;
-        import android.widget.Spinner;
-        import android.widget.AdapterView;
-        import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.database.DatabaseUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.Context;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
-        import java.util.List;
+import java.util.List;
 
-        import static com.mycompany.kittylogs.R.id.cat_list;
+import static com.mycompany.kittylogs.R.id.cat_list;
 
 
-public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public final static String NEW_CAT = "com.example.kittylogs.CAT_NAME";
     ListView listView;
@@ -50,16 +50,16 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
 
         btnAdd = (Button) findViewById(R.id.add_cat_button);
         inputLabel = (EditText) findViewById(R.id.edit_message);
-        listView.setOnItemSelectedListener(this);
+        listView.setOnItemClickListener(this);
         loadDataWithCursor();
-        btnAdd.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
                 String catText = inputLabel.getText().toString();
-                if (catText.trim().length() > 0){
+                if (catText.trim().length() > 0) {
                     DBHelper aHelper = new DBHelper(getApplicationContext());
                     aHelper.addCatToDB(catText);
                     inputLabel.setText("");
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(inputLabel.getWindowToken(), 0);
                     loadDataWithCursor();
                 } else {
@@ -70,16 +70,16 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         });
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actions, menu);
     }
 
-    public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         DBHelper aHelper = new DBHelper(getApplicationContext());
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.cnt_mnu_edit:
                 makeEditDialog(info.id, aHelper);
                 break;
@@ -90,20 +90,20 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
 
-    private void makeDeleteDialog(final long rowID, final DBHelper aHelper){
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
         final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " " + aHelper.getCatNameFromDB((rowID)) + "?";
         editDialogBuilder.setMessage(deleteMessageString)
                 .setTitle(R.string.delete_dialog_title);
-        editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
+        editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
                 return;
             }
         });
-        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
+        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 return;
             }
         });
@@ -111,46 +111,44 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         editDialog.show();
     }
 
-    private void makeEditDialog(final long rowID, final DBHelper aHelper){
+    private void makeEditDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
         editDialogBuilder.setMessage(R.string.edit_dialog_message)
                 .setTitle(R.string.edit_dialog_title);
         final EditText input = new EditText(this);
         input.setId(TEXT_ID);
         editDialogBuilder.setView(input);
-        editDialogBuilder.setPositiveButton(R.string.str_cnt_mnu_edit, new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
+        editDialogBuilder.setPositiveButton(R.string.str_cnt_mnu_edit, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
-                aHelper.editCatInDB(rowID,value);
+                aHelper.editCatInDB(rowID, value);
                 loadDataWithCursor();
                 return;
             }
         });
         editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id){
+            public void onClick(DialogInterface dialog, int id) {
                 return;
             }
         });
 
-            AlertDialog editDialog = editDialogBuilder.create();
+        AlertDialog editDialog = editDialogBuilder.create();
         editDialog.show();
     }
 
-    private void loadDataWithCursor(){
+    private void loadDataWithCursor() {
         DBHelper aHelper = new DBHelper(getApplicationContext());
         aCursor = aHelper.getCatsCursorFromDB();
         aCursorAdapter = new KLCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        //       String label = parent.getItemAtPosition(position).toString();
-        //       Toast.makeText
-    }
-
-    public void onNothingSelected(AdapterView<?> arg0){
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String label = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), "You selected: " + label, Toast.LENGTH_LONG).show();
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,8 +157,8 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
 
-    public void createCat(View view){
-        EditText editText = (EditText)findViewById(R.id.edit_message);
+    public void createCat(View view) {
+        EditText editText = (EditText) findViewById(R.id.edit_message);
         String catName = editText.getText().toString();
         DBHelper aHelper = new DBHelper(this);
         aHelper.addCatToDB(catName);
