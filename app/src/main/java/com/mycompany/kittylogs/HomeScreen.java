@@ -2,6 +2,7 @@ package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.DatabaseUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ import static com.mycompany.kittylogs.R.id.cat_list;
 
 public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    public final static String NEW_CAT = "com.example.kittylogs.CAT_NAME";
+    public final static String CLICKED_CAT = "com.example.kittylogs.CAT_NAME";
     ListView listView;
     Button btnAdd;
     EditText inputLabel;
@@ -144,8 +145,15 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String label = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), "You selected: " + label, Toast.LENGTH_LONG).show();
+    //    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Object catInfo = parent.getItemAtPosition(position);
+        Log.d("position: ", Integer.toString(position));
+        Log.d("idffffffff: ", Long.toString(id));
+        Intent intent = new Intent(this, CatProfileActivity.class);
+     //   EditText editText = (EditText) findViewById()
+        intent.putExtra(CLICKED_CAT,id);
+        startActivity(intent);
+//        Toast.makeText(parent.getContext(), "You selected: " + label, Toast.LENGTH_LONG).show();
 
     }
 
