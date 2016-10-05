@@ -18,10 +18,11 @@ public class CatProfileActivity extends AppCompatActivity {
  //       getSupportActionBar().hide();
         setContentView(R.layout.activity_cat_profile);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(HomeScreen.CLICKED_CAT);
+        long catID = intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
         TextView textView = new TextView(this);
         textView.setTextSize(40);
-        textView.setText("Message");
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        textView.setText(aHelper.getCatNameFromDB(catID));
         ViewGroup layout = (ViewGroup) findViewById(R.id.content_cat_profile);
         layout.addView(textView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
