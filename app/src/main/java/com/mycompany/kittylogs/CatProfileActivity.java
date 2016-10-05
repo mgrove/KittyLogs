@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CatProfileActivity extends AppCompatActivity {
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +20,12 @@ public class CatProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cat_profile);
         Intent intent = getIntent();
         long catID = intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
-        TextView textView = new TextView(this);
+        textView = (TextView)findViewById(R.id.cat_name);
         textView.setTextSize(40);
         DBHelper aHelper = new DBHelper(getApplicationContext());
         textView.setText(aHelper.getCatNameFromDB(catID));
         ViewGroup layout = (ViewGroup) findViewById(R.id.content_cat_profile);
-        layout.addView(textView);
+//        layout.addView(textView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
