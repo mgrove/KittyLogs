@@ -18,7 +18,12 @@
         <activity
             android:name=".CatProfileActivity"
             android:label="@string/title_activity_cat_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.mycompany.kittylogs.HomeScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mycompany.kittylogs.HomeScreen" />
+        </activity>
     </application>
 
 </manifest>
