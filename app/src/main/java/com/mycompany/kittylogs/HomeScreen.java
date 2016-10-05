@@ -43,7 +43,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- //       getSupportActionBar().hide();
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_home_screen);
         listView = (ListView) findViewById(cat_list);
 

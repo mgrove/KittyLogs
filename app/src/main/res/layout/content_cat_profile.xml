@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_cat_profile"
@@ -13,12 +14,12 @@
     tools:context="com.mycompany.kittylogs.CatProfileActivity"
     tools:showIn="@layout/activity_cat_profile">
 
-    <TextView
+    <!--<TextView
         android:text="This is the text for the TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/textView" />
+        android:id="@+id/textView" /> -->
 </RelativeLayout>
