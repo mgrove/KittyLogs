@@ -18,7 +18,7 @@ public class CatProfileActivity extends AppCompatActivity {
     long catID;
     String catName;
     Button journalButton;
-    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_NAME";
+    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class CatProfileActivity extends AppCompatActivity {
     private void makeNameView(String catName){
         textView = (TextView)findViewById(R.id.cat_name);
         textView.setTextSize(40);
-        DBHelper aHelper = new DBHelper(getApplicationContext());
         textView.setText(catName);
     }
 

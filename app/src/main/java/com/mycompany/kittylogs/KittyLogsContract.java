@@ -22,4 +22,19 @@ public final class KittyLogsContract {
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
+    public static class JournalTable implements BaseColumns{
+        public static final String TABLE_NAME = "journal";
+        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_ENTRY = "entry";
+        public static final String COLUMN_CAT_IDFK = "cat_idfk";
+
+        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                " (" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_DATE + " INTEGER," +
+                COLUMN_ENTRY + " STRING," +
+                "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
+                CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
+        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    }
 }
