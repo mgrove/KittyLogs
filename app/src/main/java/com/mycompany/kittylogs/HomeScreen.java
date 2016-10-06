@@ -145,16 +145,9 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    //    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Object catInfo = parent.getItemAtPosition(position);
-        Log.d("position: ", Integer.toString(position));
-        Log.d("idffffffff: ", Long.toString(id));
         Intent intent = new Intent(this, CatProfileActivity.class);
-     //   EditText editText = (EditText) findViewById()
         intent.putExtra(CLICKED_CAT,id);
         startActivity(intent);
-//        Toast.makeText(parent.getContext(), "You selected: " + label, Toast.LENGTH_LONG).show();
-
     }
 
 

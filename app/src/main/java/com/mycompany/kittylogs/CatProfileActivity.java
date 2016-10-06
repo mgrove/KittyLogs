@@ -18,7 +18,6 @@ public class CatProfileActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
     String catName;
-    Button journalButton;
     public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
 
     @Override
