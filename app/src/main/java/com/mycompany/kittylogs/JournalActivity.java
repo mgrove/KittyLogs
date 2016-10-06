@@ -6,25 +6,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 public class JournalActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
-    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
+    public final static String JOURNAL_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal);
-//        getCatID();
-//        setActionBar();
+        aHelper = new DBHelper(getApplicationContext());
+        catID = getCatID();
+        setActionBar();
         setFloatingActionButton();
     }
 
     private long getCatID(){
         Intent intent = getIntent();
-        return intent.getLongExtra(CAT_ID,0);
+        return intent.getLongExtra(CatProfileActivity.CAT_ID,0);
     }
 
     private void setActionBar(){

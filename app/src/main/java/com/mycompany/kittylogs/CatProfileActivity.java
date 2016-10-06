@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -67,6 +68,7 @@ public class CatProfileActivity extends AppCompatActivity {
     }
 
     public void startJournalActivity(View view){
+        Log.d("Cat ID from profile: ", Long.toString(catID));
         Intent intent = new Intent(this, JournalActivity.class);
         intent.putExtra(CAT_ID, catID);
         startActivity(intent);
