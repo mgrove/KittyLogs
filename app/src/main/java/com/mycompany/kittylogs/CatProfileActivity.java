@@ -13,15 +13,21 @@ import android.widget.TextView;
 
 public class CatProfileActivity extends AppCompatActivity {
     TextView textView;
+    DBHelper aHelper;
+    long catID;
+    String catName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- //       getSupportActionBar().hide();
         setContentView(R.layout.activity_cat_profile);
-        makeNameView();
+        aHelper = new DBHelper(getApplicationContext());
+        setCatNameAndID();
+        makeNameView(catName);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle(catName);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,13 +40,21 @@ public class CatProfileActivity extends AppCompatActivity {
         fab.hide();
     }
 
-    private void makeNameView(){
+    private void setCatNameAndID(){
+        catID = getCatID();
+        catName = aHelper.getCatNameFromDB(catID);
+    }
+
+    private long getCatID(){
         Intent intent = getIntent();
-        long catID = intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
+        return intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
+    }
+
+    private void makeNameView(String catName){
         textView = (TextView)findViewById(R.id.cat_name);
         textView.setTextSize(40);
         DBHelper aHelper = new DBHelper(getApplicationContext());
-        textView.setText(aHelper.getCatNameFromDB(catID));
+        textView.setText(catName);
     }
 
 }
