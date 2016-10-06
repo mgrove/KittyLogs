@@ -30,6 +30,7 @@
         android:id="@+id/journal_button"
         android:layout_below="@+id/cat_name"
         android:layout_toRightOf="@+id/cat_name"
-        android:layout_toEndOf="@+id/cat_name" />
+        android:layout_toEndOf="@+id/cat_name"
+        android:onClick="startJournalActivity" />
 
 </RelativeLayout>

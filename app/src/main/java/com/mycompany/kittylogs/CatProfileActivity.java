@@ -18,6 +18,7 @@ public class CatProfileActivity extends AppCompatActivity {
     long catID;
     String catName;
     Button journalButton;
+    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,5 +67,10 @@ public class CatProfileActivity extends AppCompatActivity {
         fab.hide();
     }
 
+    public void startJournalActivity(View view){
+        Intent intent = new Intent(this, JournalActivity.class);
+        intent.putExtra(CAT_ID, catID);
+        startActivity(intent);
+    }
 
 }
