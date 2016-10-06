@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class CatProfileActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class CatProfileActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
     String catName;
+    Button journalButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,20 +26,8 @@ public class CatProfileActivity extends AppCompatActivity {
         aHelper = new DBHelper(getApplicationContext());
         setCatNameAndID();
         makeNameView(catName);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        setTitle(catName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.hide();
+        setActionBar();
+        setFloatingActionButton();
     }
 
     private void setCatNameAndID(){
@@ -55,6 +45,25 @@ public class CatProfileActivity extends AppCompatActivity {
         textView.setTextSize(40);
         DBHelper aHelper = new DBHelper(getApplicationContext());
         textView.setText(catName);
+    }
+
+    private void setActionBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(catName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setFloatingActionButton(){
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        fab.hide();
     }
 
 }
