@@ -129,7 +129,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         editDialogBuilder.setPositiveButton(R.string.str_cnt_mnu_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
-                aHelper.editCatInDB(rowID, value);
+                aHelper.editEntryInDB(makeCatContentValues(value), rowID, KittyLogsContract.CatsTable.TABLE_NAME);
                 loadDataWithCursor();
                 return;
             }
@@ -146,7 +146,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
 
     private void loadDataWithCursor() {
         DBHelper aHelper = new DBHelper(getApplicationContext());
-        aCursor = aHelper.getCatsCursorFromDB();
+        aCursor = aHelper.getTableCursorFromDB(KittyLogsContract.CatsTable.TABLE_NAME);
         aCursorAdapter = new KLCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
     }

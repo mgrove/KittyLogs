@@ -42,12 +42,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void editCatInDB(long id, String newName){
+    public void editEntryInDB(ContentValues values, long id, String tableName){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] selectionArgs = {Long.toString(id)};
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, newName);
-        db.update(KittyLogsContract.CatsTable.TABLE_NAME, contentValues,"_id = ?", selectionArgs);
+        db.update(tableName, values,"_id = ?", selectionArgs);
         db.close();
     }
 
@@ -62,8 +60,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public Cursor getCatsCursorFromDB(){
-        String selectQuery = "SELECT * FROM " + KittyLogsContract.CatsTable.TABLE_NAME;
+    public Cursor getTableCursorFromDB(String tableName){
+        String selectQuery = "SELECT * FROM " + tableName;
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(selectQuery, null);
     }
@@ -79,3 +77,5 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 }
 
+//    ContentValues contentValues = new ContentValues();
+//    contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, newName);
