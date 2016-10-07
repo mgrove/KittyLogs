@@ -29,18 +29,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return "DROP TABLE IF EXISTS " + table;
     }
 
-    public void addCatToDB(String name){
+    public void addEntryToDB(ContentValues values, String tableName){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME,name);
-        db.insert(KittyLogsContract.CatsTable.TABLE_NAME, null, contentValues);
+        db.insert(tableName, null, values);
         db.close();
     }
 
-    public void removeCatFromDB(long id){
+    public void removeEntryFromDB(long id, String tableName){
         String[] selectionArgs = {Long.toString(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(KittyLogsContract.CatsTable.TABLE_NAME, "_id = ?", selectionArgs);
+        db.delete(tableName, "_id = ?", selectionArgs);
         db.close();
     }
 
@@ -72,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
+        db.execSQL(KittyLogsContract.JournalTable.CREATE_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -79,3 +78,4 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
+

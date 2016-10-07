@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DatabaseUtils;
@@ -58,7 +59,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                 String catText = inputLabel.getText().toString();
                 if (catText.trim().length() > 0) {
                     DBHelper aHelper = new DBHelper(getApplicationContext());
-                    aHelper.addCatToDB(catText);
+                    aHelper.addEntryToDB(makeCatContentValues(catText), KittyLogsContract.CatsTable.TABLE_NAME);
                     inputLabel.setText("");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(inputLabel.getWindowToken(), 0);
@@ -69,6 +70,12 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
             }
 
         });
+    }
+
+    public ContentValues makeCatContentValues(String name){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME,name);
+        return contentValues;
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -98,7 +105,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                 .setTitle(R.string.delete_dialog_title);
         editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeCatFromDB(rowID);
+                aHelper.removeEntryFromDB(rowID, KittyLogsContract.CatsTable.TABLE_NAME);
                 loadDataWithCursor();
                 return;
             }
@@ -156,13 +163,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home_screen, menu);
         return true;
-    }
-
-    public void createCat(View view) {
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String catName = editText.getText().toString();
-        DBHelper aHelper = new DBHelper(this);
-        aHelper.addCatToDB(catName);
     }
 
     @Override
