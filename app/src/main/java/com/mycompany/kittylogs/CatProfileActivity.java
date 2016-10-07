@@ -33,7 +33,7 @@ public class CatProfileActivity extends AppCompatActivity {
 
     private void setCatNameAndID(){
         catID = getCatID();
-        catName = aHelper.getCatNameFromDB(catID);
+        catName = aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
     private long getCatID(){

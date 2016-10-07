@@ -49,12 +49,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getCatNameFromDB(long id){
+    public String getValueFromDB(String columnName, String tableName, String tableID, long id){
         String[] selectionArgs = {Long.toString(id)};
         SQLiteDatabase db = this.getReadableDatabase();
-        String getCatQuery = "SELECT " + KittyLogsContract.CatsTable.COLUMN_CAT_NAME +
-                " FROM " + KittyLogsContract.CatsTable.TABLE_NAME +
-                " WHERE " + KittyLogsContract.CatsTable._ID + "= ?";
+        String getCatQuery = "SELECT " + columnName +
+                " FROM " + tableName +
+                " WHERE " + tableID + "= ?";
         String result = DatabaseUtils.stringForQuery(db, getCatQuery, selectionArgs);
         db.close();
         return result;
@@ -76,6 +76,3 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
-
-//    ContentValues contentValues = new ContentValues();
-//    contentValues.put(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, newName);

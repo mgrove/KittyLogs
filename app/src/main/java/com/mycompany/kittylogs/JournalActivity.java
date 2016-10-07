@@ -32,7 +32,7 @@ public class JournalActivity extends AppCompatActivity {
     private void setActionBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Journal for " + aHelper.getCatNameFromDB(catID));
+        setTitle("Journal for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
