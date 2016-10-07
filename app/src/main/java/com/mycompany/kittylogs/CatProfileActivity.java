@@ -66,9 +66,9 @@ public class CatProfileActivity extends AppCompatActivity {
         fab.hide();
     }
 
-    public void startJournalActivity(View view){
+    public void startNotesActivity(View view){
         Log.d("Cat ID from profile: ", Long.toString(catID));
-        Intent intent = new Intent(this, JournalActivity.class);
+        Intent intent = new Intent(this, NotesActivity.class);
         intent.putExtra(CAT_ID, catID);
         startActivity(intent);
     }

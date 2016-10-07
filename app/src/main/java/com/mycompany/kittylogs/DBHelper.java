@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
-        db.execSQL(KittyLogsContract.JournalTable.CREATE_TABLE);
+        db.execSQL(KittyLogsContract.NotesTable.CREATE_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){

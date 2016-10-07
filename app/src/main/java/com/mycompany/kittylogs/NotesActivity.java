@@ -6,18 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
-public class JournalActivity extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
-    public final static String JOURNAL_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
+    public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_journal);
+        setContentView(R.layout.activity_notes);
         aHelper = new DBHelper(getApplicationContext());
         catID = getCatID();
         setActionBar();
@@ -32,7 +31,7 @@ public class JournalActivity extends AppCompatActivity {
     private void setActionBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Journal for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
+        setTitle("Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
