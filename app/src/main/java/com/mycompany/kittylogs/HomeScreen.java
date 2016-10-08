@@ -53,21 +53,29 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     private void startCreateButtonAndInput(){
         btnAdd = (Button) findViewById(R.id.add_cat_button);
         inputLabel = (EditText) findViewById(R.id.edit_message);
+        startClickListener();
+    }
+
+    private void startClickListener(){
         btnAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 String catText = inputLabel.getText().toString();
                 if (catText.trim().length() > 0) {
-                    DBHelper aHelper = new DBHelper(getApplicationContext());
-                    aHelper.addEntryToDB(makeCatContentValues(catText), KittyLogsContract.CatsTable.TABLE_NAME);
-                    inputLabel.setText("");
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(inputLabel.getWindowToken(), 0);
+                    addCat(catText);
                     loadDataWithCursor();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Enter new cat", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter new cat name", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void addCat(String text){
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        aHelper.addEntryToDB(makeCatContentValues(text), KittyLogsContract.CatsTable.TABLE_NAME);
+        inputLabel.setText("");
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(inputLabel.getWindowToken(), 0);
     }
 
     public ContentValues makeCatContentValues(String name){
