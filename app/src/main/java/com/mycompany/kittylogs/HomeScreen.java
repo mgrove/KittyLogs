@@ -106,12 +106,22 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
 
     private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder editDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(editDialogBuilder, rowID, aHelper);
+        setDeleteButtons(editDialogBuilder, rowID, aHelper);
+        AlertDialog editDialog = editDialogBuilder.create();
+        editDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder editDialogBuilder, long rowID, DBHelper aHelper){
         final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " " + aHelper.getValueFromDB(
                 KittyLogsContract.CatsTable.COLUMN_CAT_NAME,
                 KittyLogsContract.CatsTable.TABLE_NAME,
                 KittyLogsContract.CatsTable._ID, rowID) + "?";
         editDialogBuilder.setMessage(deleteMessageString)
                 .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder editDialogBuilder, final long rowID, final DBHelper aHelper){
         editDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 aHelper.removeEntryFromDB(rowID, KittyLogsContract.CatsTable.TABLE_NAME);
@@ -124,8 +134,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                 return;
             }
         });
-        AlertDialog editDialog = editDialogBuilder.create();
-        editDialog.show();
     }
 
     private void makeEditDialog(final long rowID, final DBHelper aHelper) {
@@ -148,7 +156,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                 return;
             }
         });
-
         AlertDialog editDialog = editDialogBuilder.create();
         editDialog.show();
     }
