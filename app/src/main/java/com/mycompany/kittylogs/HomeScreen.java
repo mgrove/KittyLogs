@@ -4,29 +4,22 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DatabaseUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import static com.mycompany.kittylogs.R.id.cat_list;
 
@@ -46,14 +39,20 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_home_screen);
+        populateListView();
+        loadDataWithCursor();
+        startCreateButtonAndInput();
+    }
+
+    private void populateListView(){
         listView = (ListView) findViewById(cat_list);
-
         registerForContextMenu(listView);
+        listView.setOnItemClickListener(this);
+    }
 
+    private void startCreateButtonAndInput(){
         btnAdd = (Button) findViewById(R.id.add_cat_button);
         inputLabel = (EditText) findViewById(R.id.edit_message);
-        listView.setOnItemClickListener(this);
-        loadDataWithCursor();
         btnAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 String catText = inputLabel.getText().toString();
@@ -68,7 +67,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                     Toast.makeText(getApplicationContext(), "Enter new cat", Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
     }
 
