@@ -1,12 +1,15 @@
 package com.mycompany.kittylogs;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 
 public class NotesActivity extends AppCompatActivity {
     DBHelper aHelper;
@@ -47,4 +50,31 @@ public class NotesActivity extends AppCompatActivity {
         fab.hide();
     }
 
+    public void openAddDialog(View view){
+        AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
+        addDialogBuilder.setMessage("This is the message")
+                .setTitle("This is the title");
+        final EditText input = new EditText(this);
+        //input.setId(TEXT_ID);
+        addDialogBuilder.setView(input);
+        setAddButtons(addDialogBuilder, input);
+        AlertDialog addDialog = addDialogBuilder.create();
+        addDialog.show();
+    }
+
+    private void setAddButtons(AlertDialog.Builder builder, final EditText input){
+        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String value = input.getText().toString();
+        //        aHelper.editEntryInDB(makeCatContentValues(value), rowID, KittyLogsContract.CatsTable.TABLE_NAME);
+        //        loadDataWithCursor();
+                return;
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
+    }
 }

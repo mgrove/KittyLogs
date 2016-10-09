@@ -141,7 +141,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         editDialogBuilder.setMessage(R.string.edit_dialog_message)
                 .setTitle(R.string.edit_dialog_title);
         final EditText input = new EditText(this);
-        input.setId(TEXT_ID);
+ //       input.setId(TEXT_ID); (I'm not sure if this line does anything)
         editDialogBuilder.setView(input);
         setEditButtons(editDialogBuilder, input, rowID, aHelper);
         AlertDialog editDialog = editDialogBuilder.create();
@@ -176,7 +176,6 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         intent.putExtra(CLICKED_CAT,id);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

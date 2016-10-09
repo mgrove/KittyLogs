@@ -9,7 +9,12 @@
     tools:context="com.mycompany.kittylogs.NotesActivity"
     tools:showIn="@layout/activity_notes"
     android:orientation="vertical" >
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_note_button"
+        android:text="New note"
+        android:onClick="openAddDialog" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
