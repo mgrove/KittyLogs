@@ -3,6 +3,7 @@ package com.mycompany.kittylogs;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -77,6 +78,7 @@ public class NotesActivity extends AppCompatActivity {
          //       Log.d("Time", Long.toString(currentTimeMillis()));
                 Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
+                Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
         //        loadDataWithCursor();
                 return;
             }
