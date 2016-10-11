@@ -31,7 +31,8 @@ public final class KittyLogsContract {
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_DATE + " INTEGER," +
-                COLUMN_ENTRY + " STRING," +
+                COLUMN_ENTRY + " TEXT," +
+                COLUMN_CAT_IDFK + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
