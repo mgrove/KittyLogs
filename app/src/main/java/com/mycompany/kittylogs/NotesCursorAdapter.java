@@ -9,28 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-//import android.widget.CursorAdapter;
 
 /**
- * Created by System User on 9/27/2016.
+ * Created by System User on 10/11/2016.
  */
 
-public class KLCursorAdapter extends CursorAdapter {
+public class NotesCursorAdapter extends CursorAdapter {
+
     private LayoutInflater cursorInflater;
 
-    public KLCursorAdapter(Context context, Cursor cursor, int flags){
+    public NotesCursorAdapter(Context context, Cursor cursor, int flags){
         super(context,cursor,flags);
         cursorInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void bindView(View view, Context context, Cursor cursor){
         TextView catTextView = (TextView)view.findViewById(R.id.rowTextView);
-   //     TextView noteTextView = (TextView)view.findViewById(R.id.rowTextView);
+        //     TextView noteTextView = (TextView)view.findViewById(R.id.rowTextView);
         String cats = cursor.getString(cursor.getColumnIndex(KittyLogsContract.CatsTable.COLUMN_CAT_NAME));
-  //      String notes = cursor.getString(/*cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY)*/0);
+        //      String notes = cursor.getString(/*cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY)*/0);
         catTextView.setText(cats);
- //       Log.d("notes", Integer.toString(R.id.note_text));
-  //      noteTextView.setText("notes");
+        //       Log.d("notes", Integer.toString(R.id.note_text));
+        //      noteTextView.setText("notes");
     }
 
     public View newView(Context context, Cursor cursor, ViewGroup parent){
