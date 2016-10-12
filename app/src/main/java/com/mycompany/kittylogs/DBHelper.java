@@ -42,6 +42,18 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeCatFromDB(long catID){
+        String[] selectionArgs = {Long.toString(catID)};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(KittyLogsContract.CatsTable.TABLE_NAME, "_id = ?", selectionArgs);
+        removeCatDataFromDB(selectionArgs, db);
+        db.close();
+    }
+
+    private void removeCatDataFromDB(String[] selectionArgs,  SQLiteDatabase db){
+        db.delete(KittyLogsContract.NotesTable.TABLE_NAME, KittyLogsContract.NotesTable.COLUMN_CAT_IDFK + " = ?",selectionArgs);
+    }
+
     public void editEntryInDB(ContentValues values, long id, String tableName){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] selectionArgs = {Long.toString(id)};

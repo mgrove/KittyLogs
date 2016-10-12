@@ -124,7 +124,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
         deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeEntryFromDB(rowID, KittyLogsContract.CatsTable.TABLE_NAME);
+                aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
                 return;
             }
