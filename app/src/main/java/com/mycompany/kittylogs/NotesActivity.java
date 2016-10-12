@@ -28,7 +28,7 @@ public class NotesActivity extends AppCompatActivity {
     long catID;
     public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
     private Cursor aCursor;
-    private KLCursorAdapter aCursorAdapter;
+    private NotesCursorAdapter aCursorAdapter;
     ListView listView;
 
     @Override
@@ -40,7 +40,7 @@ public class NotesActivity extends AppCompatActivity {
         setActionBar();
         setFloatingActionButton();
         listView = (ListView) findViewById(R.id.note_list);
-    //    loadDataWithCursor();
+        loadDataWithCursor();
     }
 
     private long getCatID(){
@@ -87,7 +87,7 @@ public class NotesActivity extends AppCompatActivity {
                 Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
                 Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
-  //              loadDataWithCursor();
+                loadDataWithCursor();
                 return;
             }
         });
@@ -109,7 +109,7 @@ public class NotesActivity extends AppCompatActivity {
 
     private void loadDataWithCursor(){
         aCursor = aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME);
-        aCursorAdapter = new KLCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        aCursorAdapter = new NotesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
     }
 }
