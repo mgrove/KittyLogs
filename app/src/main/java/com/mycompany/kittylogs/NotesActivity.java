@@ -111,5 +111,6 @@ public class NotesActivity extends AppCompatActivity {
         aCursor = aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME);
         aCursorAdapter = new NotesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
+        aHelper.close();
     }
 }

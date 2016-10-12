@@ -169,6 +169,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         aCursor = aHelper.getTableCursorFromDB(KittyLogsContract.CatsTable.TABLE_NAME);
         aCursorAdapter = new KLCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
+        aHelper.close();
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
