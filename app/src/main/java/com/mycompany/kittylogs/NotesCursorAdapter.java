@@ -24,12 +24,8 @@ public class NotesCursorAdapter extends CursorAdapter {
     }
 
     public void bindView(View view, Context context, Cursor cursor) {
-        // TextView catTextView = (TextView)view.findViewById(R.id.rowTextView);
         TextView noteTextView = (TextView) view.findViewById(R.id.rowTextView);
-        //String cats = cursor.getString(cursor.getColumnIndex(KittyLogsContract.CatsTable.COLUMN_CAT_NAME));
         String notes = cursor.getString(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY));
-        //catTextView.setText(cats);
-        //       Log.d("notes", Integer.toString(R.id.note_text));
         noteTextView.setText(notes);
     }
 

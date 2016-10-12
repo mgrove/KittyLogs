@@ -72,7 +72,6 @@ public class NotesActivity extends AppCompatActivity {
         addDialogBuilder.setMessage("This is the message")
                 .setTitle("This is the title");
         final EditText input = new EditText(this);
-        //input.setId(TEXT_ID);
         addDialogBuilder.setView(input);
         setAddButtons(addDialogBuilder, input);
         AlertDialog addDialog = addDialogBuilder.create();
@@ -83,7 +82,6 @@ public class NotesActivity extends AppCompatActivity {
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
-         //       Log.d("Time", Long.toString(currentTimeMillis()));
                 Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
                 Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
@@ -103,7 +101,6 @@ public class NotesActivity extends AppCompatActivity {
         values.put(KittyLogsContract.NotesTable.COLUMN_ENTRY, entry);
         values.put(KittyLogsContract.NotesTable.COLUMN_CAT_IDFK, catID);
         values.put(KittyLogsContract.NotesTable.COLUMN_DATE, currentTimeMillis());
-    //    Log.d("Time", Long.toString(currentTimeMillis()));
         return values;
     }
 
