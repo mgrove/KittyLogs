@@ -67,6 +67,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return query;
     }
 
+    public Cursor getTableCursorForCatFromDB(String tableName, String catIDName, long catID){
+        String selectQuery = "Select * FROM " + tableName + " WHERE " + catIDName + "=" + catID;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor query = db.rawQuery(selectQuery, null);
+        return query;
+    }
+
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.NotesTable.CREATE_TABLE);
