@@ -2,6 +2,8 @@ package com.mycompany.kittylogs;
 
 import android.content.Context;
 import android.database.Cursor;
+//import android.icu.util.Calendar;
+import java.util.Calendar;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ public class NotesCursorAdapter extends CursorAdapter {
 
     private LayoutInflater cursorInflater;
     private final Context context;
+
 
     public NotesCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
@@ -39,15 +42,27 @@ public class NotesCursorAdapter extends CursorAdapter {
 //
 //    }
 
+
+
     public void bindView(View view, Context context, Cursor cursor) {
    //     LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
   //      view = inflater.inflate(R.layout.custom_row_view, null, true);
         TextView noteTextView = (TextView) view.findViewById(R.id.note_text);
         TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
         String notes = cursor.getString(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY));
+        String dates = convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_DATE)));
         noteTextView.setText(notes);
-        dateTextView.setText("dates");
+        dateTextView.setText(dates);
 
+    }
+
+    public String convertMillisecondsToDate(long milliseconds){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliseconds);
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        int monthOfYear = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        return monthOfYear + "/" + dayOfMonth + "/" + year;
     }
 
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
