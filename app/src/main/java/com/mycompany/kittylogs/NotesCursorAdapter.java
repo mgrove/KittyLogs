@@ -28,32 +28,13 @@ public class NotesCursorAdapter extends CursorAdapter {
         cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-//    @Override
-//    public int getViewTypeCount() {
-//        return 2;
-//    }
-
-//    @Override
-//    public View getView(int position, View view, ViewGroup parent){
-//
-//
-//        TextView dateView = (TextView) rowView.findViewById(R.id.note_date);
-//        TextView contentView = (TextView) rowView.findViewById(R.id.note_text);
-//
-//    }
-
-
-
     public void bindView(View view, Context context, Cursor cursor) {
-   //     LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-  //      view = inflater.inflate(R.layout.custom_row_view, null, true);
         TextView noteTextView = (TextView) view.findViewById(R.id.note_text);
         TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
         String notes = cursor.getString(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY));
         String dates = convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_DATE)));
         noteTextView.setText(notes);
         dateTextView.setText(dates);
-
     }
 
     public String convertMillisecondsToDate(long milliseconds){
