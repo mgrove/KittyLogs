@@ -18,9 +18,9 @@
         <activity
             android:name=".CatProfileActivity"
             android:label="@string/title_activity_cat_profile"
+            android:launchMode="singleTop"
             android:parentActivityName=".HomeScreen"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mycompany.kittylogs.HomeScreen" />
@@ -28,12 +28,16 @@
         <activity
             android:name=".NotesActivity"
             android:label="@string/title_activity_notes"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".CatProfileActivity">
+            android:parentActivityName=".CatProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mycompany.kittylogs.CatProfileActivity" />
         </activity>
+        <activity
+            android:name=".FoodActivity"
+            android:label="@string/title_activity_food"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
