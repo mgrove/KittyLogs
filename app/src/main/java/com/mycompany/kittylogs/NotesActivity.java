@@ -12,7 +12,12 @@ import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,6 +45,7 @@ public class NotesActivity extends AppCompatActivity {
         setActionBar();
         setFloatingActionButton();
         listView = (ListView) findViewById(R.id.note_list);
+        registerForContextMenu(listView);
         loadDataWithCursor();
     }
 
@@ -109,5 +115,56 @@ public class NotesActivity extends AppCompatActivity {
         aCursorAdapter = new NotesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actions, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_edit:
+                makeEditDialog(info.id, aHelper);
+                break;
+            case R.id.cnt_mnu_delete:
+                makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    private void makeEditDialog(final long rowID, final DBHelper aHelper) {}
+
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(deleteDialogBuilder, rowID, aHelper);
+        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+        AlertDialog editDialog = deleteDialogBuilder.create();
+        editDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder, long rowID, DBHelper aHelper){
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this note?";
+        deleteDialogBuilder.setMessage(deleteMessageString)
+                .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                aHelper.removeEntryFromDB(rowID, KittyLogsContract.NotesTable.TABLE_NAME);
+                loadDataWithCursor();
+                return;
+            }
+        });
+        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
     }
 }
