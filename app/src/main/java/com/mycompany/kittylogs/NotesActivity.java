@@ -72,8 +72,7 @@ public class NotesActivity extends AppCompatActivity {
 
     public void openAddDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
-        addDialogBuilder.setMessage("This is the message")
-                .setTitle("This is the title");
+        addDialogBuilder.setTitle(R.string.new_note_dialog_title);
         final EditText input = new EditText(this);
         addDialogBuilder.setView(input);
         setAddButtons(addDialogBuilder, input);
