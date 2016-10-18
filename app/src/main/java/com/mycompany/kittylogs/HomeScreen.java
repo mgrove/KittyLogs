@@ -87,7 +87,7 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        inflater.inflate(R.menu.home_actions, menu);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -108,8 +108,8 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
         makeDeleteMessage(deleteDialogBuilder, rowID, aHelper);
         setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
-        AlertDialog editDialog = deleteDialogBuilder.create();
-        editDialog.show();
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
     }
 
     private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder, long rowID, DBHelper aHelper){

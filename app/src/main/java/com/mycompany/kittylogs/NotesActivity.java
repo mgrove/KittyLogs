@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +20,6 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import java.util.Calendar;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -120,16 +117,16 @@ public class NotesActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        inflater.inflate(R.menu.note_actions, menu);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         DBHelper aHelper = new DBHelper(getApplicationContext());
         switch (item.getItemId()) {
-            case R.id.cnt_mnu_edit:
-                makeEditDialog(info.id, aHelper);
-                break;
+//            case R.id.cnt_mnu_edit:
+//                makeEditDialog(info.id, aHelper);
+//                break;
             case R.id.cnt_mnu_delete:
                 makeDeleteDialog(info.id, aHelper);
                 break;
@@ -143,8 +140,8 @@ public class NotesActivity extends AppCompatActivity {
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
         makeDeleteMessage(deleteDialogBuilder, rowID, aHelper);
         setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
-        AlertDialog editDialog = deleteDialogBuilder.create();
-        editDialog.show();
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
     }
 
     private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder, long rowID, DBHelper aHelper){
