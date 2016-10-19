@@ -70,7 +70,7 @@ public class NotesActivity extends AppCompatActivity {
         fab.hide();
     }
 
-    public void openAddDialog(View view){
+    public void openAddNoteDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
         addDialogBuilder.setTitle(R.string.new_note_dialog_title);
         final EditText input = new EditText(this);

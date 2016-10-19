@@ -47,4 +47,6 @@ public class FoodActivity extends AppCompatActivity {
         fab.hide();
     }
 
+    public void openAddFoodDialog(){}
+
 }

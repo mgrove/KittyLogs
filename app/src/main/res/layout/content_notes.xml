@@ -14,26 +14,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/add_note_button"
         android:text="New note"
-        android:onClick="openAddDialog" />
+        android:onClick="openAddNoteDialog" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/note_list">
-
-        <!--      <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="vertical">
-
-                       <TextView
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:id="@+id/note_date"/>
-
-                    <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:id="@+id/note_text"/>
-               </LinearLayout>-->
     </ListView>
 </LinearLayout>
