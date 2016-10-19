@@ -73,4 +73,9 @@ public class CatProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startFoodActivity(View view){
+        Intent intent = new Intent(this, FoodActivity.class);
+        intent.putExtra(CAT_ID, catID);
+        startActivity(intent);
+    }
 }
