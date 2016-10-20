@@ -89,6 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.NotesTable.CREATE_TABLE);
+
         Log.d("Cats SQL", KittyLogsContract.CatsTable.CREATE_TABLE);
         Log.d("Notes SQL", KittyLogsContract.NotesTable.CREATE_TABLE);
     }
