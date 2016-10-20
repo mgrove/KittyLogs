@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 public class FoodActivity extends AppCompatActivity {
     DBHelper aHelper;
@@ -53,31 +55,48 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     public void openAddFoodDialog(View view){
-//        AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
-//        addDialogBuilder.setTitle(R.string.new_note_dialog_title);
-//        final EditText input = new EditText(this);
-//        addDialogBuilder.setView(input);
-//        setAddButtons(addDialogBuilder, input);
-//        AlertDialog addDialog = addDialogBuilder.create();
-//        addDialog.show();
+        AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
+        addDialogBuilder.setTitle(R.string.new_food_dialog_title);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText brand = new EditText(this);
+        brand.setHint("Brand");
+        layout.addView(brand);
+
+        final EditText flavor = new EditText(this);
+        flavor.setHint("Flavor");
+        layout.addView(flavor);
+
+        final Spinner type = new Spinner(this);
+        layout.addView(type);
+
+        final Spinner isLikedByCat = new Spinner(this);
+        layout.addView(isLikedByCat);
+
+        addDialogBuilder.setView(layout);
+        setAddButtons(addDialogBuilder, brand);
+        AlertDialog addDialog = addDialogBuilder.create();
+        addDialog.show();
     }
 
-//    private void setAddButtons(AlertDialog.Builder builder, final EditText input){
-//        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//    //            String value = input.getText().toString();
-//                Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
-//   //             aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
-//                Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
-//  //              loadDataWithCursor();
-//                return;
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                return;
-//            }
-//        });
-//    }
+    private void setAddButtons(AlertDialog.Builder builder, final EditText input){
+        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+    //            String value = input.getText().toString();
+                Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
+   //             aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
+                Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
+  //              loadDataWithCursor();
+                return;
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
+    }
 
 }
