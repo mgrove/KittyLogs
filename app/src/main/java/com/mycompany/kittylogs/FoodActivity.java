@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -70,9 +71,15 @@ public class FoodActivity extends AppCompatActivity {
         layout.addView(flavor);
 
         final Spinner type = new Spinner(this);
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,R.array.food_type_array,android.R.layout.simple_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        type.setAdapter(typeAdapter);
         layout.addView(type);
 
         final Spinner isLikedByCat = new Spinner(this);
+        ArrayAdapter<CharSequence> isLikedAdapter = ArrayAdapter.createFromResource(this,R.array.food_is_liked_array,android.R.layout.simple_spinner_item);
+        isLikedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        isLikedByCat.setAdapter(isLikedAdapter);
         layout.addView(isLikedByCat);
 
         addDialogBuilder.setView(layout);
