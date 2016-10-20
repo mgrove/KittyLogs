@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DatabaseUtils;
@@ -15,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import static java.lang.System.currentTimeMillis;
 
 public class FoodActivity extends AppCompatActivity {
     DBHelper aHelper;
@@ -83,18 +86,22 @@ public class FoodActivity extends AppCompatActivity {
         layout.addView(isLikedByCat);
 
         addDialogBuilder.setView(layout);
-        setAddButtons(addDialogBuilder, brand);
+        setAddButtons(addDialogBuilder, brand, flavor, type, isLikedByCat);
         AlertDialog addDialog = addDialogBuilder.create();
         addDialog.show();
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final EditText input){
+    private void setAddButtons(AlertDialog.Builder builder, final EditText brand, final EditText flavor, final Spinner type, final Spinner isLikedByCat){
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                String brandValue = brand.getText().toString();
+                String flavorValue = flavor.getText().toString();
+                String typeValue = type.getSelectedItem().toString();
+                String isLikedValue = isLikedByCat.getSelectedItem().toString();
     //            String value = input.getText().toString();
-                Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
-   //             aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
-                Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
+    //            Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
+                aHelper.addEntryToDB(makeFoodContentValues(brandValue, flavorValue, typeValue, isLikedValue), KittyLogsContract.FoodTable.TABLE_NAME);
+                Log.d("Food Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.FoodTable.TABLE_NAME)));
   //              loadDataWithCursor();
                 return;
             }
@@ -104,6 +111,17 @@ public class FoodActivity extends AppCompatActivity {
                 return;
             }
         });
+    }
+
+    private ContentValues makeFoodContentValues(String brand, String flavor, String type, String isLiked){
+        ContentValues values = new ContentValues();
+        values.put(KittyLogsContract.FoodTable.COLUMN_BRAND, brand);
+        values.put(KittyLogsContract.FoodTable.COLUMN_FLAVOR, flavor);
+        values.put(KittyLogsContract.FoodTable.COLUMN_TYPE, type);
+        values.put(KittyLogsContract.FoodTable.COLUMN_IS_LIKED, isLiked);
+        values.put(KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
+        values.put(KittyLogsContract.FoodTable.COLUMN_DATE, currentTimeMillis());
+        return values;
     }
 
 }
