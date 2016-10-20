@@ -9,11 +9,6 @@ import android.database.sqlite.*;
 import android.util.Log;
 import android.database.DatabaseUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.id;
-
 /**
  * Created by System User on 9/22/2016.
  */
@@ -89,8 +84,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.NotesTable.CREATE_TABLE);
+ //       db.execSQL(KittyLogsContract.FoodTypeTable.CREATE_TABLE);
+ //       db.execSQL(KittyLogsContract.FoodIsLikedTable.CREATE_TABLE);
+        db.execSQL(KittyLogsContract.FoodTable.CREATE_TABLE);
 
-        Log.d("Cats SQL", KittyLogsContract.CatsTable.CREATE_TABLE);
+        Log.d("Food SQL", KittyLogsContract.FoodTable.CREATE_TABLE);
         Log.d("Notes SQL", KittyLogsContract.NotesTable.CREATE_TABLE);
     }
 

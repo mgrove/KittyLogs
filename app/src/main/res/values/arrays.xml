@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="food_type_array">
+        <item>Dry</item>
+        <item>Canned</item>
+        <item>Raw</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="food_is_liked_array">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Somewhat</item>
+    </string-array>
+</resources>
