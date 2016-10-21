@@ -31,9 +31,9 @@ public class FoodCursorAdapter extends CursorAdapter {
         TextView likedTextView = (TextView) view.findViewById(R.id.food_liked);
         String brand = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_BRAND));
         String flavor = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_FLAVOR));
-        String type = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_TYPE));
-        String dates = Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_DATE)));
-        String liked = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_IS_LIKED));
+        String type = "Type: " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_TYPE));
+        String dates = "Date added: " + Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_DATE)));
+        String liked = "Liked by cat? " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_IS_LIKED));
         brandTextView.setText(brand);
         flavorTextView.setText(flavor);
         typeTextView.setText(type);
