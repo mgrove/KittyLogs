@@ -47,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void removeCatDataFromDB(String[] selectionArgs,  SQLiteDatabase db){
         db.delete(KittyLogsContract.NotesTable.TABLE_NAME, KittyLogsContract.NotesTable.COLUMN_CAT_IDFK + " = ?",selectionArgs);
+        db.delete(KittyLogsContract.FoodTable.TABLE_NAME, KittyLogsContract.FoodTable.COLUMN_CAT_IDFK + " = ?",selectionArgs);
     }
 
     public void editEntryInDB(ContentValues values, long id, String tableName){
