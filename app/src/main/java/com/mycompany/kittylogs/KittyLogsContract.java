@@ -93,7 +93,7 @@ public final class KittyLogsContract {
                 COLUMN_DATE + " INTEGER," +
                 COLUMN_BRAND + " TEXT," +
                 COLUMN_FLAVOR + " TEXT," +
-                COLUMN_TYPE+ " TEXT," +
+                COLUMN_TYPE + " TEXT," +
                 COLUMN_IS_LIKED + " TEXT," +
                 COLUMN_CAT_IDFK + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +

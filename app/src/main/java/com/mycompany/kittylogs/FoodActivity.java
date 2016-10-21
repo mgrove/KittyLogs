@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import static java.lang.System.currentTimeMillis;
@@ -22,6 +25,9 @@ import static java.lang.System.currentTimeMillis;
 public class FoodActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
+    private Cursor aCursor;
+    private FoodCursorAdapter aCursorAdapter;
+    ListView listView;
 
 
     @Override
@@ -32,6 +38,9 @@ public class FoodActivity extends AppCompatActivity {
         catID = getCatID();
         setActionBar();
         setFloatingActionButton();
+        listView = (ListView) findViewById(R.id.food_list);
+  //      registerForContextMenu(listView);
+        loadDataWithCursor();
     }
 
     private long getCatID(){
@@ -91,6 +100,13 @@ public class FoodActivity extends AppCompatActivity {
         addDialog.show();
     }
 
+    private void loadDataWithCursor(){
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.FoodTable.TABLE_NAME, KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
+        aCursorAdapter = new FoodCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        listView.setAdapter(aCursorAdapter);
+        aHelper.close();
+    }
+
     private void setAddButtons(AlertDialog.Builder builder, final EditText brand, final EditText flavor, final Spinner type, final Spinner isLikedByCat){
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -102,7 +118,7 @@ public class FoodActivity extends AppCompatActivity {
     //            Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeFoodContentValues(brandValue, flavorValue, typeValue, isLikedValue), KittyLogsContract.FoodTable.TABLE_NAME);
                 Log.d("Food Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.FoodTable.TABLE_NAME)));
-  //              loadDataWithCursor();
+                loadDataWithCursor();
                 return;
             }
         });
