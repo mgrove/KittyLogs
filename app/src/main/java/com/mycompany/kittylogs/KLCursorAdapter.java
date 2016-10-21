@@ -3,11 +3,9 @@ package com.mycompany.kittylogs;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 //import android.widget.CursorAdapter;
 
@@ -30,6 +28,6 @@ public class KLCursorAdapter extends CursorAdapter {
     }
 
     public View newView(Context context, Cursor cursor, ViewGroup parent){
-        return cursorInflater.from(context).inflate(R.layout.list_text_view, parent, false);
+        return cursorInflater.from(context).inflate(R.layout.cat_list_text_view, parent, false);
     }
 }

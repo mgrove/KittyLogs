@@ -11,6 +11,12 @@
     tools:context="com.mycompany.kittylogs.FoodActivity"
     tools:showIn="@layout/activity_food">
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/food_list">
+    </ListView>
+
     <Button
         android:id="@+id/add_food_button"
         android:layout_width="wrap_content"
