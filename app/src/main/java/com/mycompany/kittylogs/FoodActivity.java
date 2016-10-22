@@ -108,7 +108,7 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void setAddButtons(AlertDialog.Builder builder, final EditText brand, final EditText flavor, final Spinner type, final Spinner isLikedByCat){
-        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Add food", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String brandValue = brand.getText().toString();
                 String flavorValue = flavor.getText().toString();

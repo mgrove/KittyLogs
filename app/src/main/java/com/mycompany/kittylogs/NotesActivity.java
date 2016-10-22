@@ -123,17 +123,12 @@ public class NotesActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         DBHelper aHelper = new DBHelper(getApplicationContext());
         switch (item.getItemId()) {
-//            case R.id.cnt_mnu_edit:
-//                makeEditDialog(info.id, aHelper);
-//                break;
             case R.id.cnt_mnu_delete:
                 makeDeleteDialog(info.id, aHelper);
                 break;
         }
         return true;
     }
-
-    private void makeEditDialog(final long rowID, final DBHelper aHelper) {}
 
     private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
