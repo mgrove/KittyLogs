@@ -12,7 +12,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -39,7 +43,7 @@ public class FoodActivity extends AppCompatActivity {
         setActionBar();
         setFloatingActionButton();
         listView = (ListView) findViewById(R.id.food_list);
-  //      registerForContextMenu(listView);
+        registerForContextMenu(listView);
         loadDataWithCursor();
     }
 
@@ -100,12 +104,6 @@ public class FoodActivity extends AppCompatActivity {
         addDialog.show();
     }
 
-    private void loadDataWithCursor(){
-        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.FoodTable.TABLE_NAME, KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
-        aCursorAdapter = new FoodCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        listView.setAdapter(aCursorAdapter);
-        aHelper.close();
-    }
 
     private void setAddButtons(AlertDialog.Builder builder, final EditText brand, final EditText flavor, final Spinner type, final Spinner isLikedByCat){
         builder.setPositiveButton("Add food", new DialogInterface.OnClickListener() {
@@ -138,6 +136,59 @@ public class FoodActivity extends AppCompatActivity {
         values.put(KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
         values.put(KittyLogsContract.FoodTable.COLUMN_DATE, currentTimeMillis());
         return values;
+    }
+
+    private void loadDataWithCursor(){
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.FoodTable.TABLE_NAME, KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
+        aCursorAdapter = new FoodCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        listView.setAdapter(aCursorAdapter);
+        aHelper.close();
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.food_actions, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_delete:
+                makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(deleteDialogBuilder);
+        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this food?";
+        deleteDialogBuilder.setMessage(deleteMessageString)
+                .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                aHelper.removeEntryFromDB(rowID, KittyLogsContract.FoodTable.TABLE_NAME);
+                loadDataWithCursor();
+                return;
+            }
+        });
+        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
     }
 
 }

@@ -132,13 +132,13 @@ public class NotesActivity extends AppCompatActivity {
 
     private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
-        makeDeleteMessage(deleteDialogBuilder, rowID, aHelper);
+        makeDeleteMessage(deleteDialogBuilder);
         setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
         AlertDialog deleteDialog = deleteDialogBuilder.create();
         deleteDialog.show();
     }
 
-    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder, long rowID, DBHelper aHelper){
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
         final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this note?";
         deleteDialogBuilder.setMessage(deleteMessageString)
                 .setTitle(R.string.delete_dialog_title);
