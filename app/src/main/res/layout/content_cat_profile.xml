@@ -37,4 +37,10 @@
         android:id="@+id/food_button"
         android:onClick="startFoodActivity" />
 
+    <Button
+        android:text="Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weight_button"/>
+
 </LinearLayout>
