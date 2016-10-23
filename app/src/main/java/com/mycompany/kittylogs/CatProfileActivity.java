@@ -67,14 +67,19 @@ public class CatProfileActivity extends AppCompatActivity {
     }
 
     public void startNotesActivity(View view){
-        Log.d("Cat ID from profile: ", Long.toString(catID));
-        Intent intent = new Intent(this, NotesActivity.class);
-        intent.putExtra(CAT_ID, catID);
-        startActivity(intent);
+        startClassActivity(NotesActivity.class);
     }
 
     public void startFoodActivity(View view){
-        Intent intent = new Intent(this, FoodActivity.class);
+        startClassActivity(FoodActivity.class);
+    }
+
+    public void startWeightActivity(View view){
+        startClassActivity(WeightActivity.class);
+    }
+
+    private void startClassActivity(Class<?> activity){
+        Intent intent = new Intent(this, activity);
         intent.putExtra(CAT_ID, catID);
         startActivity(intent);
     }

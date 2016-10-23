@@ -33,7 +33,6 @@ public class FoodActivity extends AppCompatActivity {
     private FoodCursorAdapter aCursorAdapter;
     ListView listView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
