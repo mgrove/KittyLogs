@@ -38,47 +38,6 @@ public final class KittyLogsContract {
 
     }
 
-    public static class FoodTableWithEnums implements BaseColumns{
-        public static final String TABLE_NAME = "food";
-        public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_BRAND = "brand";
-        public static final String COLUMN_FLAVOR = "flavor";
-        public static final String COLUMN_TYPE_IDFK = "type_idfk";
-        public static final String COLUMN_IS_LIKED_IDFK = "is_liked_idfk";
-        public static final String COLUMN_CAT_IDFK = "cat_idfk";
-
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                " (" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_DATE + " INTEGER," +
-                COLUMN_BRAND + " TEXT," +
-                COLUMN_FLAVOR + " TEXT," +
-                COLUMN_TYPE_IDFK + " INTEGER," +
-                COLUMN_IS_LIKED_IDFK + " INTEGER," +
-                COLUMN_CAT_IDFK + " INTEGER," +
-                "FOREIGN KEY (" + COLUMN_TYPE_IDFK + ") REFERENCES " +
-                FoodTypeTable.TABLE_NAME + "(" + FoodTypeTable._ID + ")," +
-                "FOREIGN KEY (" + COLUMN_IS_LIKED_IDFK + ") REFERENCES " +
-                FoodIsLikedTable.TABLE_NAME + "(" + FoodTypeTable._ID + ")," +
-                "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
-                CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
-    }
-
-    public static class FoodTypeTable implements BaseColumns{
-        public static final String TABLE_NAME = "food_type";
-        public static final String COLUMN_TYPE = "type";
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                " (" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_TYPE + " TEXT" + ")";
-    }
-
-    public static class FoodIsLikedTable implements BaseColumns{
-        public static final String TABLE_NAME = "food_is_liked";
-        public static final String COLUMN_IS_LIKED = "is_liked";
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
-                " (" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_IS_LIKED + " TEXT" + ")";
-    }
-
     public static class FoodTable implements BaseColumns{
         public static final String TABLE_NAME = "food";
         public static final String COLUMN_DATE = "date";
@@ -95,6 +54,21 @@ public final class KittyLogsContract {
                 COLUMN_FLAVOR + " TEXT," +
                 COLUMN_TYPE + " TEXT," +
                 COLUMN_IS_LIKED + " TEXT," +
+                COLUMN_CAT_IDFK + " INTEGER," +
+                "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
+                CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
+    }
+
+    public static class WeightTable implements BaseColumns{
+        public static final String TABLE_NAME = "weights";
+        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_WEIGHT = "weight";
+        public static final String COLUMN_CAT_IDFK = "cat_idfk";
+
+        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                " (" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_DATE + " INTEGER," +
+                COLUMN_WEIGHT + " REAL," +
                 COLUMN_CAT_IDFK + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";

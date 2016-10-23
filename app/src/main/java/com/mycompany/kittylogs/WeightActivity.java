@@ -37,7 +37,4 @@ public class WeightActivity extends AppCompatActivity {
         setTitle("Weight for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-
-
 }
