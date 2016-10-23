@@ -40,7 +40,6 @@ public class FoodActivity extends AppCompatActivity {
         aHelper = new DBHelper(getApplicationContext());
         catID = getCatID();
         setActionBar();
-        setFloatingActionButton();
         listView = (ListView) findViewById(R.id.food_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
@@ -56,18 +55,6 @@ public class FoodActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("Food for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setFloatingActionButton(){
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.hide();
     }
 
     public void openAddFoodDialog(View view){

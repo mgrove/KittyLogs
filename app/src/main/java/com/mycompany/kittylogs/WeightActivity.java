@@ -24,16 +24,6 @@ public class WeightActivity extends AppCompatActivity {
         setActionBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.hide();
     }
 
     private long getCatID(){
@@ -47,5 +37,7 @@ public class WeightActivity extends AppCompatActivity {
         setTitle("Weight for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 
 }
