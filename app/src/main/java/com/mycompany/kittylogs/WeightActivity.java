@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,24 +52,17 @@ public class WeightActivity extends AppCompatActivity {
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
         addDialogBuilder.setTitle(R.string.new_note_dialog_title);
         LayoutInflater inflater = getLayoutInflater();
-        final EditText input = new EditText(this);
-//        addDialogBuilder.setView(inflater.inflate(R.layout.add_weight_dialog, null));
-//        final EditText input = (EditText) findViewById(R.id.weight_input_lalalalala);
-//        if (input.getText() != null) {
-//            Log.d("Input", input.getText().toString());
-//        } else {
-//            Log.d("Input", "It's null!");
-//        }
-        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        addDialogBuilder.setView(input);
-        setAddButtons(addDialogBuilder, input);
+        addDialogBuilder.setView(inflater.inflate(R.layout.add_weight_dialog, null));
+        setAddButtons(addDialogBuilder);
         AlertDialog addDialog = addDialogBuilder.create();
         addDialog.show();
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final EditText input) {
+    private void setAddButtons(AlertDialog.Builder builder) {
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                Dialog addDialog = (Dialog) dialog;
+                EditText input = (EditText)addDialog.findViewById(R.id.weight_input_lalalalala);
                 String value = input.getText().toString();
                 Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeWeightContentValues(value), KittyLogsContract.WeightTable.TABLE_NAME);
