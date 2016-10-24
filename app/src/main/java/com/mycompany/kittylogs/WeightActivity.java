@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +42,7 @@ public class WeightActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.weight_list);
+        registerForContextMenu(listView);
         loadDataWithCursor();
     }
 
@@ -96,4 +101,51 @@ public class WeightActivity extends AppCompatActivity {
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
     }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.food_actions, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_delete:
+                makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(deleteDialogBuilder);
+        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this weight?";
+        deleteDialogBuilder.setMessage(deleteMessageString)
+                .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                aHelper.removeEntryFromDB(rowID, KittyLogsContract.WeightTable.TABLE_NAME);
+                loadDataWithCursor();
+                return;
+            }
+        });
+        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
+    }
+
 }
