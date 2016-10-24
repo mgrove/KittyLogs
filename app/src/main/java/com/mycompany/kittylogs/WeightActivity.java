@@ -45,22 +45,22 @@ public class WeightActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.weight_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
+        setTabs();
+    }
 
+    private void setTabs(){
         TabHost host = (TabHost)findViewById(R.id.tab_host);
         host.setup();
 
-        //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("Chart View");
         spec.setContent(R.id.tab1);
         spec.setIndicator("Chart View");
         host.addTab(spec);
-
-        //Tab 2
+        
         spec = host.newTabSpec("List View");
         spec.setContent(R.id.tab2);
         spec.setIndicator("List View");
         host.addTab(spec);
-
     }
 
     private long getCatID() {
