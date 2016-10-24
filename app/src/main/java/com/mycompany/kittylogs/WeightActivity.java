@@ -8,15 +8,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TableLayout;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -24,6 +24,9 @@ public class WeightActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
     private Cursor aCursor;
+    private WeightCursorAdapter aCursorAdapter;
+    //  TableLayout tableLayout;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public class WeightActivity extends AppCompatActivity {
         setActionBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        listView = (ListView) findViewById(R.id.weight_list);
+        loadDataWithCursor();
     }
 
     private long getCatID() {
@@ -62,12 +67,11 @@ public class WeightActivity extends AppCompatActivity {
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Dialog addDialog = (Dialog) dialog;
-                EditText input = (EditText)addDialog.findViewById(R.id.weight_input_lalalalala);
+                EditText input = (EditText)addDialog.findViewById(R.id.weight_input);
                 String value = input.getText().toString();
-                Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeWeightContentValues(value), KittyLogsContract.WeightTable.TABLE_NAME);
                 Log.d("Weight Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.WeightTable.TABLE_NAME)));
-                //               loadDataWithCursor();
+                loadDataWithCursor();
                 return;
             }
         });
@@ -84,5 +88,12 @@ public class WeightActivity extends AppCompatActivity {
         values.put(KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
         values.put(KittyLogsContract.WeightTable.COLUMN_DATE, currentTimeMillis());
         return values;
+    }
+
+    private void loadDataWithCursor(){
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
+        aCursorAdapter = new WeightCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        listView.setAdapter(aCursorAdapter);
+        aHelper.close();
     }
 }

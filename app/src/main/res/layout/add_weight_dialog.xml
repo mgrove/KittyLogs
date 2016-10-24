@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/weight_input_lalalalala" />
+        android:id="@+id/weight_input" />
 
 </LinearLayout>
