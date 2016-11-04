@@ -25,8 +25,6 @@ import android.widget.ListView;
 import static java.lang.System.currentTimeMillis;
 
 public class NotesActivity extends CatDataActivity {
-//    DBHelper aHelper;
-//    long catID;
     public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
     private Cursor aCursor;
     private NotesCursorAdapter aCursorAdapter;
@@ -36,9 +34,6 @@ public class NotesActivity extends CatDataActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_notes);
-//        aHelper = new DBHelper(getApplicationContext());
-//        catID = getCatID();
-//        setActionBar();
         listView = (ListView) findViewById(R.id.note_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
@@ -60,18 +55,6 @@ public class NotesActivity extends CatDataActivity {
         return "Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
-//    private long getCatID(){
-//        Intent intent = getIntent();
-//        return intent.getLongExtra(CatProfileActivity.CAT_ID,0);
-//    }
-
-//    private void setActionBar(){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        setTitle("Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//    }
-
     public void openAddNoteDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
         addDialogBuilder.setTitle(R.string.new_note_dialog_title);
@@ -86,7 +69,6 @@ public class NotesActivity extends CatDataActivity {
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
-                Log.d("Table name", KittyLogsContract.NotesTable.TABLE_NAME);
                 aHelper.addEntryToDB(makeNoteContentValues(value), KittyLogsContract.NotesTable.TABLE_NAME);
                 Log.d("Notes Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.NotesTable.TABLE_NAME)));
                 loadDataWithCursor();
