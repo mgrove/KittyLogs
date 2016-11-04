@@ -23,8 +23,6 @@ import android.widget.ListView;
 
 import static java.lang.System.currentTimeMillis;
 
-//import java.util.Date;
-
 public class NotesActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;

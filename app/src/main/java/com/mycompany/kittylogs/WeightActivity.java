@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,11 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TableLayout;
 
+import org.achartengine.GraphicalView;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.model.TimeSeries;
+import org.achartengine.renderer.DefaultRenderer;
+
 import static java.lang.System.currentTimeMillis;
 
 public class WeightActivity extends AppCompatActivity {
@@ -33,13 +39,21 @@ public class WeightActivity extends AppCompatActivity {
     //  TableLayout tableLayout;
     ListView listView;
 
+    public TimeSeries timeSeries = new TimeSeries("Time Series Title");
+    GraphicalView mChartView = null;
+    private DefaultRenderer mRenderer = new DefaultRenderer();
+    private CategorySeries mSeries = new CategorySeries("Expenses");
+    private static int[] COLORS = new int[] {
+            Color.GREEN, Color.BLUE, Color.MAGENTA, Color.YELLOW, Color.RED, Color.DKGRAY, Color.BLACK};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight);
         aHelper = new DBHelper(getApplicationContext());
         catID = getCatID();
-        setActionBar();
+        setActionBar(); 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.weight_list);
@@ -56,7 +70,7 @@ public class WeightActivity extends AppCompatActivity {
         spec.setContent(R.id.tab1);
         spec.setIndicator("Chart View");
         host.addTab(spec);
-        
+
         spec = host.newTabSpec("List View");
         spec.setContent(R.id.tab2);
         spec.setIndicator("List View");
