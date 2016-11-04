@@ -6,18 +6,17 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 public abstract class CatDataActivity extends AppCompatActivity {
     DBHelper aHelper;
     long catID;
-    protected Cursor aCursor;
-    protected CursorAdapter aCursorAdapter;
-    protected View activityLayout;
+    protected int activityLayout;
     protected String mainTableName;
     protected String mainTableColumnCatIDFK;
-    protected AdapterView dataDisplayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +24,16 @@ public abstract class CatDataActivity extends AppCompatActivity {
         setVariables();
         setContentView(activityLayout);
         setActionBar();
-        loadDataWithCursor();
     }
 
     protected void setVariables(){
-        aHelper = new DBHelper(getApplicationContext()); // May cause problems
+        aHelper = new DBHelper(getApplicationContext());
         catID = getCatID();
         activityLayout = getActivityLayout();
         mainTableName = getMainTableName();
+        Log.d("Main table name:",mainTableName);
         mainTableColumnCatIDFK = getMainTableColumnCatIDFK();
-        dataDisplayLayout = getDataDisplayLayout();
+        Log.d("catID from setVariables", Long.toString(catID));
     }
 
     private long getCatID(){
@@ -49,17 +48,11 @@ public abstract class CatDataActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    protected abstract String makeTitleString();
+    protected abstract void loadDataWithCursor();
 
-    protected void loadDataWithCursor(){
-        aCursor = aHelper.getTableCursorForCatFromDB(mainTableName, mainTableColumnCatIDFK, catID);
-        aCursorAdapter = new NotesCursorAdapter(this, aCursor, android.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        dataDisplayLayout.setAdapter(aCursorAdapter);
-        aHelper.close();
-    }
+    protected abstract String makeTitleString();
 
     protected abstract String getMainTableName();
     protected abstract String getMainTableColumnCatIDFK();
-    protected abstract View getActivityLayout();
-    protected abstract AdapterView getDataDisplayLayout();
+    protected abstract int getActivityLayout();
 }

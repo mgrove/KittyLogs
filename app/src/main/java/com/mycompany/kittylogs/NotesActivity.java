@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.app.AlertDialog;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,15 +18,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
+
 import android.widget.EditText;
 import android.widget.ListView;
 
 import static java.lang.System.currentTimeMillis;
 
-public class NotesActivity extends AppCompatActivity {
-    DBHelper aHelper;
-    long catID;
+public class NotesActivity extends CatDataActivity {
+//    DBHelper aHelper;
+//    long catID;
     public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
     private Cursor aCursor;
     private NotesCursorAdapter aCursorAdapter;
@@ -34,26 +35,42 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
-        aHelper = new DBHelper(getApplicationContext());
-        catID = getCatID();
-        setActionBar();
+//        setContentView(R.layout.activity_notes);
+//        aHelper = new DBHelper(getApplicationContext());
+//        catID = getCatID();
+//        setActionBar();
         listView = (ListView) findViewById(R.id.note_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
     }
 
-    private long getCatID(){
-        Intent intent = getIntent();
-        return intent.getLongExtra(CatProfileActivity.CAT_ID,0);
+    protected String getMainTableName(){
+        return KittyLogsContract.NotesTable.TABLE_NAME;
     }
 
-    private void setActionBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected String getMainTableColumnCatIDFK(){
+        return KittyLogsContract.NotesTable.COLUMN_CAT_IDFK;
     }
+
+    protected int getActivityLayout(){
+        return R.layout.activity_notes;
+    }
+
+    protected String makeTitleString(){
+        return "Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
+    }
+
+//    private long getCatID(){
+//        Intent intent = getIntent();
+//        return intent.getLongExtra(CatProfileActivity.CAT_ID,0);
+//    }
+
+//    private void setActionBar(){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        setTitle("Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//    }
 
     public void openAddNoteDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
@@ -91,7 +108,7 @@ public class NotesActivity extends AppCompatActivity {
         return values;
     }
 
-    private void loadDataWithCursor(){
+    protected void loadDataWithCursor(){
         aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.NotesTable.TABLE_NAME, KittyLogsContract.NotesTable.COLUMN_CAT_IDFK, catID);
         aCursorAdapter = new NotesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
