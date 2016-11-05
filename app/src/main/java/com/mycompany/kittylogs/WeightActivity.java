@@ -22,7 +22,6 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TableLayout;
 
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
@@ -136,7 +135,7 @@ public class WeightActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.food_actions, menu);
+        inflater.inflate(R.menu.menu_delete, menu);
     }
 
     public boolean onContextItemSelected(MenuItem item) {

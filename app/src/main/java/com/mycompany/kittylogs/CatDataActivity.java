@@ -53,7 +53,7 @@ public abstract class CatDataActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(getContextMenuLayout(), menu);
+        inflater.inflate(R.menu.menu_delete, menu);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -104,6 +104,4 @@ public abstract class CatDataActivity extends AppCompatActivity {
     protected abstract String getMainTableColumnCatIDFK();
 
     protected abstract int getActivityLayout();
-
-    protected abstract int getContextMenuLayout();
 }
