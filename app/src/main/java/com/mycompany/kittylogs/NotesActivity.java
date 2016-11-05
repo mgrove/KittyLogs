@@ -55,6 +55,10 @@ public class NotesActivity extends CatDataActivity {
         return "Notes for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
+    protected int getContextMenuLayout(){
+        return R.menu.note_actions;
+    }
+
     public void openAddNoteDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
         addDialogBuilder.setTitle(R.string.new_note_dialog_title);
@@ -95,51 +99,5 @@ public class NotesActivity extends CatDataActivity {
         aCursorAdapter = new NotesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
-    }
-
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.note_actions, menu);
-    }
-
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        DBHelper aHelper = new DBHelper(getApplicationContext());
-        switch (item.getItemId()) {
-            case R.id.cnt_mnu_delete:
-                makeDeleteDialog(info.id, aHelper);
-                break;
-        }
-        return true;
-    }
-
-    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
-        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
-        makeDeleteMessage(deleteDialogBuilder);
-        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
-        AlertDialog deleteDialog = deleteDialogBuilder.create();
-        deleteDialog.show();
-    }
-
-    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
-        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this note?";
-        deleteDialogBuilder.setMessage(deleteMessageString)
-                .setTitle(R.string.delete_dialog_title);
-    }
-
-    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
-        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeEntryFromDB(rowID, KittyLogsContract.NotesTable.TABLE_NAME);
-                loadDataWithCursor();
-                return;
-            }
-        });
-        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
-        });
     }
 }
