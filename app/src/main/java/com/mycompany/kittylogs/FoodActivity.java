@@ -24,9 +24,9 @@ import android.widget.Spinner;
 
 import static java.lang.System.currentTimeMillis;
 
-public class FoodActivity extends AppCompatActivity {
-    DBHelper aHelper;
-    long catID;
+public class FoodActivity extends CatDataActivity {
+//    DBHelper aHelper;
+//    long catID;
     private Cursor aCursor;
     private FoodCursorAdapter aCursorAdapter;
     ListView listView;
@@ -34,13 +34,26 @@ public class FoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food);
-        aHelper = new DBHelper(getApplicationContext());
-        catID = getCatID();
-        setActionBar();
+   //     setContentView(R.layout.activity_food);
         listView = (ListView) findViewById(R.id.food_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
+    }
+
+    protected String getMainTableName(){
+        return KittyLogsContract.FoodTable.TABLE_NAME;
+    }
+
+    protected String getMainTableColumnCatIDFK(){
+        return KittyLogsContract.FoodTable.COLUMN_CAT_IDFK;
+    }
+
+    protected int getActivityLayout(){
+        return R.layout.activity_food;
+    }
+
+    protected String makeTitleString(){
+        return "Food for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
     private long getCatID(){
@@ -48,12 +61,12 @@ public class FoodActivity extends AppCompatActivity {
         return intent.getLongExtra(CatProfileActivity.CAT_ID,0);
     }
 
-    public void setActionBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Food for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+//    public void setActionBar(){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        setTitle("Food for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//    }
 
     public void openAddFoodDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
@@ -122,57 +135,57 @@ public class FoodActivity extends AppCompatActivity {
         return values;
     }
 
-    private void loadDataWithCursor(){
+    protected void loadDataWithCursor(){
         aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.FoodTable.TABLE_NAME, KittyLogsContract.FoodTable.COLUMN_CAT_IDFK, catID);
         aCursorAdapter = new FoodCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_delete, menu);
-    }
-
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        DBHelper aHelper = new DBHelper(getApplicationContext());
-        switch (item.getItemId()) {
-            case R.id.cnt_mnu_delete:
-                makeDeleteDialog(info.id, aHelper);
-                break;
-        }
-        return true;
-    }
-
-    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
-        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
-        makeDeleteMessage(deleteDialogBuilder);
-        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
-        AlertDialog deleteDialog = deleteDialogBuilder.create();
-        deleteDialog.show();
-    }
-
-    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
-        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this food?";
-        deleteDialogBuilder.setMessage(deleteMessageString)
-                .setTitle(R.string.delete_dialog_title);
-    }
-
-    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
-        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeEntryFromDB(rowID, KittyLogsContract.FoodTable.TABLE_NAME);
-                loadDataWithCursor();
-                return;
-            }
-        });
-        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
-        });
-    }
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_delete, menu);
+//    }
+//
+//    public boolean onContextItemSelected(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        DBHelper aHelper = new DBHelper(getApplicationContext());
+//        switch (item.getItemId()) {
+//            case R.id.cnt_mnu_delete:
+//                makeDeleteDialog(info.id, aHelper);
+//                break;
+//        }
+//        return true;
+//    }
+//
+//    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+//        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+//        makeDeleteMessage(deleteDialogBuilder);
+//        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+//        AlertDialog deleteDialog = deleteDialogBuilder.create();
+//        deleteDialog.show();
+//    }
+//
+//    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
+//        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this food?";
+//        deleteDialogBuilder.setMessage(deleteMessageString)
+//                .setTitle(R.string.delete_dialog_title);
+//    }
+//
+//    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+//        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                aHelper.removeEntryFromDB(rowID, KittyLogsContract.FoodTable.TABLE_NAME);
+//                loadDataWithCursor();
+//                return;
+//            }
+//        });
+//        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                return;
+//            }
+//        });
+//    }
 
 }
