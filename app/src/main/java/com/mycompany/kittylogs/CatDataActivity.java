@@ -85,13 +85,10 @@ public abstract class CatDataActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 aHelper.removeEntryFromDB(rowID, mainTableName);
                 loadDataWithCursor();
-                return;
             }
         });
         deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
+            public void onClick(DialogInterface dialog, int id){}
         });
     }
 

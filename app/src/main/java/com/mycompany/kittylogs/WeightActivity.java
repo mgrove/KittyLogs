@@ -102,13 +102,10 @@ public class WeightActivity extends CatDataActivity {
                 aHelper.addEntryToDB(makeWeightContentValues(value), KittyLogsContract.WeightTable.TABLE_NAME);
                 Log.d("Weight Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.WeightTable.TABLE_NAME)));
                 loadDataWithCursor();
-                return;
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
+            public void onClick(DialogInterface dialog, int id) {}
         });
     }
 

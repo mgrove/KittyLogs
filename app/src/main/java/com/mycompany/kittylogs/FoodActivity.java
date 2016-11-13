@@ -104,13 +104,10 @@ public class FoodActivity extends CatDataActivity {
                 aHelper.addEntryToDB(makeFoodContentValues(brandValue, flavorValue, typeValue, isLikedValue), KittyLogsContract.FoodTable.TABLE_NAME);
                 Log.d("Food Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.FoodTable.TABLE_NAME)));
                 loadDataWithCursor();
-                return;
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
+            public void onClick(DialogInterface dialog, int id) {}
         });
     }
 

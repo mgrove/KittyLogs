@@ -126,13 +126,10 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
             public void onClick(DialogInterface dialog, int id) {
                 aHelper.removeCatFromDB(rowID);
                 loadDataWithCursor();
-                return;
             }
         });
         deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
+            public void onClick(DialogInterface dialog, int id){}
         });
     }
 
@@ -154,12 +151,10 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
                 String value = input.getText().toString();
                 aHelper.editEntryInDB(makeCatContentValues(value), rowID, KittyLogsContract.CatsTable.TABLE_NAME);
                 loadDataWithCursor();
-                return;
             }
         });
         editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                return;
             }
         });
     }
