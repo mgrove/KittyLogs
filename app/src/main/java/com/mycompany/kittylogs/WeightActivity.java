@@ -30,9 +30,7 @@ import org.achartengine.renderer.DefaultRenderer;
 
 import static java.lang.System.currentTimeMillis;
 
-public class WeightActivity extends AppCompatActivity {
-    DBHelper aHelper;
-    long catID;
+public class WeightActivity extends CatDataActivity {
     private Cursor aCursor;
     private WeightCursorAdapter aCursorAdapter;
     //  TableLayout tableLayout;
@@ -45,20 +43,29 @@ public class WeightActivity extends AppCompatActivity {
     private static int[] COLORS = new int[] {
             Color.GREEN, Color.BLUE, Color.MAGENTA, Color.YELLOW, Color.RED, Color.DKGRAY, Color.BLACK};
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weight);
-        aHelper = new DBHelper(getApplicationContext());
-        catID = getCatID();
-        setActionBar(); 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.weight_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
         setTabs();
+    }
+
+    protected String getMainTableName(){
+         return KittyLogsContract.WeightTable.TABLE_NAME;
+    }
+
+    protected String getMainTableColumnCatIDFK(){
+        return KittyLogsContract.WeightTable.COLUMN_CAT_IDFK;
+    }
+
+    protected int getActivityLayout(){
+        return R.layout.activity_weight;
+    }
+
+    protected String makeTitleString(){
+        return "Weight for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
     private void setTabs(){
@@ -76,21 +83,9 @@ public class WeightActivity extends AppCompatActivity {
         host.addTab(spec);
     }
 
-    private long getCatID() {
-        Intent intent = getIntent();
-        return intent.getLongExtra(CatProfileActivity.CAT_ID, 0);
-    }
-
-    public void setActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Weight for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     public void openAddWeightDialog(View view) {
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
-        addDialogBuilder.setTitle(R.string.new_note_dialog_title);
+        addDialogBuilder.setTitle(R.string.new_weight_dialog_title);
         LayoutInflater inflater = getLayoutInflater();
         addDialogBuilder.setView(inflater.inflate(R.layout.add_weight_dialog, null));
         setAddButtons(addDialogBuilder);
@@ -99,7 +94,7 @@ public class WeightActivity extends AppCompatActivity {
     }
 
     private void setAddButtons(AlertDialog.Builder builder) {
-        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Add weight", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Dialog addDialog = (Dialog) dialog;
                 EditText input = (EditText)addDialog.findViewById(R.id.weight_input);
@@ -125,57 +120,11 @@ public class WeightActivity extends AppCompatActivity {
         return values;
     }
 
-    private void loadDataWithCursor(){
+    protected void loadDataWithCursor(){
         aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
         aCursorAdapter = new WeightCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
-    }
-
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_delete, menu);
-    }
-
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        DBHelper aHelper = new DBHelper(getApplicationContext());
-        switch (item.getItemId()) {
-            case R.id.cnt_mnu_delete:
-                makeDeleteDialog(info.id, aHelper);
-                break;
-        }
-        return true;
-    }
-
-    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
-        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
-        makeDeleteMessage(deleteDialogBuilder);
-        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
-        AlertDialog deleteDialog = deleteDialogBuilder.create();
-        deleteDialog.show();
-    }
-
-    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
-        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this weight?";
-        deleteDialogBuilder.setMessage(deleteMessageString)
-                .setTitle(R.string.delete_dialog_title);
-    }
-
-    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
-        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeEntryFromDB(rowID, KittyLogsContract.WeightTable.TABLE_NAME);
-                loadDataWithCursor();
-                return;
-            }
-        });
-        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                return;
-            }
-        });
     }
 
 }

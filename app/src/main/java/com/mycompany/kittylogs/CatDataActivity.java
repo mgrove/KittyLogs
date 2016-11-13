@@ -75,7 +75,7 @@ public abstract class CatDataActivity extends AppCompatActivity {
     }
 
     private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
-        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this note?";
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this?";
         deleteDialogBuilder.setMessage(deleteMessageString)
                 .setTitle(R.string.delete_dialog_title);
     }
@@ -83,7 +83,7 @@ public abstract class CatDataActivity extends AppCompatActivity {
     private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
         deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                aHelper.removeEntryFromDB(rowID, KittyLogsContract.NotesTable.TABLE_NAME);
+                aHelper.removeEntryFromDB(rowID, mainTableName);
                 loadDataWithCursor();
                 return;
             }

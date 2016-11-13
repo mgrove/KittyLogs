@@ -15,5 +15,6 @@
     <string name="new_note_dialog_title">New note</string>
     <string name="title_activity_food">FoodActivity</string>
     <string name="new_food_dialog_title">New food</string>
+    <string name="new_weight_dialog_title"> New weight</string>
     <string name="title_activity_weight">WeightActivity</string>
 </resources>
