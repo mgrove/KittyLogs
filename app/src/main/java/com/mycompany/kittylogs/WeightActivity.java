@@ -65,17 +65,18 @@ public class WeightActivity extends CatDataActivity {
     }
 
     private void createChart(){
+        setTimeSeries();
 
-        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
-        int count = aCursor.getCount();
-        for(int i = 0; i < count; i++){
-            aCursor.moveToNext();
-            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
-            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
-            Date thisDate = new Date(aCursor.getLong(1));
-            timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
-        }
-
+//        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
+//        int count = aCursor.getCount();
+//        for(int i = 0; i < count; i++){
+//            aCursor.moveToNext();
+//            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
+//            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
+//            Date thisDate = new Date(aCursor.getLong(1));
+//            timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
+//        }
+        mRenderer.setInScroll(true);
         renderer.setLineWidth(2);
         renderer.setColor(Color.RED);
         renderer.setDisplayBoundingPoints(true);
@@ -85,9 +86,34 @@ public class WeightActivity extends CatDataActivity {
         mRenderer.addSeriesRenderer(renderer);
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(timeSeries);
-
-        mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.chartsRelativeLayout);
+        mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
+        layout.addView(mChartView);
+    }
+
+    private void setTimeSeries(){
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
+        int count = aCursor.getCount();
+        for(int i = 0; i < count; i++){
+            aCursor.moveToNext();
+            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
+            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
+            Date thisDate = new Date(aCursor.getLong(1));
+            timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
+        }
+        aHelper.close();
+    }
+
+    private void repaintChart(){
+        setTimeSeries();
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.chartsRelativeLayout);
+        if (mChartView != null){
+            layout.removeView(mChartView);
+        }
+
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(timeSeries);
+        mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
         layout.addView(mChartView);
     }
 
@@ -141,6 +167,8 @@ public class WeightActivity extends CatDataActivity {
                 aHelper.addEntryToDB(makeWeightContentValues(value), KittyLogsContract.WeightTable.TABLE_NAME);
                 Log.d("Weight Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.WeightTable.TABLE_NAME)));
                 loadDataWithCursor();
+                repaintChart();
+                mChartView.repaint();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
