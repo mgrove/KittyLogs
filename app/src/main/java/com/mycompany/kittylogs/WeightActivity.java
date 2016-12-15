@@ -21,13 +21,22 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 
+import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.util.Date;
+
+import static com.mycompany.kittylogs.R.id.chartsRelativeLayout;
 import static java.lang.System.currentTimeMillis;
 
 public class WeightActivity extends CatDataActivity {
@@ -37,8 +46,9 @@ public class WeightActivity extends CatDataActivity {
     ListView listView;
 
     public TimeSeries timeSeries = new TimeSeries("Time Series Title");
-    GraphicalView mChartView = null;
-    private DefaultRenderer mRenderer = new DefaultRenderer();
+    GraphicalView mChartView;
+    private XYSeriesRenderer renderer = new XYSeriesRenderer();
+    private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
     private CategorySeries mSeries = new CategorySeries("Expenses");
     private static int[] COLORS = new int[] {
             Color.GREEN, Color.BLUE, Color.MAGENTA, Color.YELLOW, Color.RED, Color.DKGRAY, Color.BLACK};
@@ -50,6 +60,28 @@ public class WeightActivity extends CatDataActivity {
         registerForContextMenu(listView);
         loadDataWithCursor();
         setTabs();
+        createChart();
+    }
+
+    private void createChart(){
+        Date date1 = new Date();
+        Long long1 = new Long(2);
+        timeSeries.add(date1, long1);
+        Date date2 = new Date();
+        Long long2 = new Long(5);
+        timeSeries.add(date2, long2);
+        renderer.setLineWidth(2);
+        renderer.setColor(Color.RED);
+        renderer.setDisplayBoundingPoints(true);
+        renderer.setPointStyle(PointStyle.CIRCLE);
+        renderer.setPointStrokeWidth(3);
+        mRenderer.addSeriesRenderer(renderer);
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(timeSeries);
+
+        mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.chartsRelativeLayout);
+        layout.addView(mChartView);
     }
 
     protected String getMainTableName(){
