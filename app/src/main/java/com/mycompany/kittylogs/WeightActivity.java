@@ -35,6 +35,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import static com.mycompany.kittylogs.R.id.chartsRelativeLayout;
 import static java.lang.System.currentTimeMillis;
@@ -64,12 +65,17 @@ public class WeightActivity extends CatDataActivity {
     }
 
     private void createChart(){
-        Date date1 = new Date();
-        Long long1 = new Long(2);
-        timeSeries.add(date1, long1);
-        Date date2 = new Date();
-        Long long2 = new Long(5);
-        timeSeries.add(date2, long2);
+
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
+        int count = aCursor.getCount();
+        for(int i = 0; i < count; i++){
+            aCursor.moveToNext();
+            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
+            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
+            Date thisDate = new Date(aCursor.getLong(1));
+            timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
+        }
+
         renderer.setLineWidth(2);
         renderer.setColor(Color.RED);
         renderer.setDisplayBoundingPoints(true);
