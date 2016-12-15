@@ -75,6 +75,7 @@ public class WeightActivity extends CatDataActivity {
         renderer.setDisplayBoundingPoints(true);
         renderer.setPointStyle(PointStyle.CIRCLE);
         renderer.setPointStrokeWidth(3);
+        mRenderer.setYLabelsPadding(10);
         mRenderer.addSeriesRenderer(renderer);
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(timeSeries);
