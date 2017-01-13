@@ -105,6 +105,7 @@ public class WeightActivity extends CatDataActivity {
     }
 
     private void repaintChart(){
+        timeSeries.clear();
         setTimeSeries();
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.chartsRelativeLayout);
         if (mChartView != null){
@@ -115,6 +116,8 @@ public class WeightActivity extends CatDataActivity {
         dataset.addSeries(timeSeries);
         mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
         layout.addView(mChartView);
+        Log.d("Called:","RepaintChart from WeightActivity");
+        Log.d("timeSeries:", timeSeries.toString());
     }
 
     protected String getMainTableName(){
@@ -189,6 +192,17 @@ public class WeightActivity extends CatDataActivity {
         aCursorAdapter = new WeightCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    @Override
+    protected void deleteEntryWithMenu(final long rowID){
+   //     super.deleteEntryWithMenu(rowID);
+        aHelper.removeEntryFromDB(rowID, KittyLogsContract.WeightTable.TABLE_NAME);
+        loadDataWithCursor();
+
+        repaintChart();
+        mChartView.repaint();
+        Log.d("Called:", "deleteEntryWithMenu from WeightActivity");
     }
 
 }
