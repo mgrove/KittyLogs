@@ -43,16 +43,12 @@ import static java.lang.System.currentTimeMillis;
 public class WeightActivity extends CatDataActivity {
     private Cursor aCursor;
     private WeightCursorAdapter aCursorAdapter;
-    //  TableLayout tableLayout;
     ListView listView;
 
     public TimeSeries timeSeries = new TimeSeries("Time Series Title");
     GraphicalView mChartView;
     private XYSeriesRenderer renderer = new XYSeriesRenderer();
     private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
-    private CategorySeries mSeries = new CategorySeries("Expenses");
-    private static int[] COLORS = new int[] {
-            Color.GREEN, Color.BLUE, Color.MAGENTA, Color.YELLOW, Color.RED, Color.DKGRAY, Color.BLACK};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +63,6 @@ public class WeightActivity extends CatDataActivity {
     private void createChart(){
         setTimeSeries();
 
-//        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.WeightTable.TABLE_NAME, KittyLogsContract.WeightTable.COLUMN_CAT_IDFK, catID);
-//        int count = aCursor.getCount();
-//        for(int i = 0; i < count; i++){
-//            aCursor.moveToNext();
-//            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
-//            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
-//            Date thisDate = new Date(aCursor.getLong(1));
-//            timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
-//        }
         mRenderer.setInScroll(true);
         renderer.setLineWidth(2);
         renderer.setColor(Color.RED);
@@ -96,8 +83,6 @@ public class WeightActivity extends CatDataActivity {
         int count = aCursor.getCount();
         for(int i = 0; i < count; i++){
             aCursor.moveToNext();
-            Log.d("Long 1", Long.toString(aCursor.getLong(1)));
-            Log.d("Long 2", Double.toString(aCursor.getDouble(2)));
             Date thisDate = new Date(aCursor.getLong(1));
             timeSeries.add(thisDate, Double.valueOf(aCursor.getDouble(2)));
         }
@@ -116,8 +101,7 @@ public class WeightActivity extends CatDataActivity {
         dataset.addSeries(timeSeries);
         mChartView = ChartFactory.getTimeChartView(this, dataset, mRenderer, null);
         layout.addView(mChartView);
-        Log.d("Called:","RepaintChart from WeightActivity");
-        Log.d("timeSeries:", timeSeries.toString());
+        mChartView.repaint();
     }
 
     protected String getMainTableName(){
@@ -168,10 +152,8 @@ public class WeightActivity extends CatDataActivity {
                 EditText input = (EditText)addDialog.findViewById(R.id.weight_input);
                 String value = input.getText().toString();
                 aHelper.addEntryToDB(makeWeightContentValues(value), KittyLogsContract.WeightTable.TABLE_NAME);
-                Log.d("Weight Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.WeightTable.TABLE_NAME)));
                 loadDataWithCursor();
                 repaintChart();
-                mChartView.repaint();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -196,13 +178,8 @@ public class WeightActivity extends CatDataActivity {
 
     @Override
     protected void deleteEntryWithMenu(final long rowID){
-   //     super.deleteEntryWithMenu(rowID);
-        aHelper.removeEntryFromDB(rowID, KittyLogsContract.WeightTable.TABLE_NAME);
-        loadDataWithCursor();
-
+        super.deleteEntryWithMenu(rowID);
         repaintChart();
-        mChartView.repaint();
-        Log.d("Called:", "deleteEntryWithMenu from WeightActivity");
     }
 
 }
