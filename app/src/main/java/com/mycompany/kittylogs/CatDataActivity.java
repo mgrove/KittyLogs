@@ -83,8 +83,6 @@ public abstract class CatDataActivity extends AppCompatActivity {
     private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
         deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-//                aHelper.removeEntryFromDB(rowID, mainTableName);
-//                loadDataWithCursor();
                 deleteEntryWithMenu(rowID);
             }
         });

@@ -4,20 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,17 +18,13 @@ import android.widget.TabHost;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.util.Date;
-import java.util.HashMap;
 
-import static com.mycompany.kittylogs.R.id.chartsRelativeLayout;
 import static java.lang.System.currentTimeMillis;
 
 public class WeightActivity extends CatDataActivity {
