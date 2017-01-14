@@ -65,6 +65,10 @@ public class CatProfileActivity extends AppCompatActivity {
         startClassActivity(WeightActivity.class);
     }
 
+    public void startMedicalRecordsActivity(View view){
+        startClassActivity(MedicalRecordsActivity.class);
+    }
+
     private void startClassActivity(Class<?> activity){
         Intent intent = new Intent(this, activity);
         intent.putExtra(CAT_ID, catID);

@@ -44,4 +44,11 @@
         android:id="@+id/weight_button"
         android:onClick="startWeightActivity"/>
 
+    <Button
+        android:text="Medical Records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/medical_records_button"
+        android:onClick="startMedicalRecordsActivity" />
+
 </LinearLayout>
