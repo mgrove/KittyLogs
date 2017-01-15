@@ -13,32 +13,40 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CatProfileActivity extends AppCompatActivity {
+public class CatProfileActivity extends LaunchActivity {
     TextView textView;
-    DBHelper aHelper;
-    long catID;
-    String catName;
-    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
+//    DBHelper aHelper;
+//    long catID;
+//    String catName;
+//    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cat_profile);
-        aHelper = new DBHelper(getApplicationContext());
-        setCatNameAndID();
+  //      setContentView(R.layout.activity_cat_profile);
+  //      aHelper = new DBHelper(getApplicationContext());
+  //      setCatNameAndID();
         makeNameView(catName);
-        setActionBar();
+ //       setActionBar();
     }
 
-    private void setCatNameAndID(){
-        catID = getCatID();
-        catName = aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
+    protected String makeTitleString(){
+        return catName;
     }
 
-    private long getCatID(){
-        Intent intent = getIntent();
-        return intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
+    protected int getActivityLayout(){
+        return R.layout.activity_cat_profile;
     }
+
+//    private void setCatNameAndID(){
+//        catID = getCatID();
+//        catName = aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
+//    }
+//
+//    private long getCatID(){
+//        Intent intent = getIntent();
+//        return intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
+//    }
 
     private void makeNameView(String catName){
         textView = (TextView)findViewById(R.id.cat_name);
@@ -46,12 +54,12 @@ public class CatProfileActivity extends AppCompatActivity {
         textView.setText(catName);
     }
 
-    private void setActionBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(catName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+//    private void setActionBar(){
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        setTitle(catName);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//    }
 
     public void startNotesActivity(View view){
         startClassActivity(NotesActivity.class);
