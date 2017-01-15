@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 /**
  * Created by System User on 1/14/2017.
@@ -30,18 +31,20 @@ public abstract class LaunchActivity extends AppCompatActivity {
         catName = aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
     }
 
-    private long getCatID(){
-        Intent intent = getIntent();
-        return intent.getLongExtra(HomeScreen.CLICKED_CAT, 0);
-    }
-
-
     private void setActionBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(makeTitleString());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    protected void startClassActivity(Class<?> activity){
+        Intent intent = new Intent(this, activity);
+        intent.putExtra(CAT_ID, catID);
+        startActivity(intent);
+    }
+
+    protected abstract long getCatID();
 
     protected abstract String makeTitleString();
 
