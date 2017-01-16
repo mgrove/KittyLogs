@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -8,10 +9,13 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -85,4 +89,32 @@ public class NotesActivity extends CatDataActivity {
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
     }
+
+    public class NotesCursorAdapter extends CursorAdapter {
+
+        private LayoutInflater cursorInflater;
+        private final Context context;
+
+
+        protected NotesCursorAdapter(Context context, Cursor cursor, int flags) {
+            super(context, cursor, flags);
+            this.context = context;
+            cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor) {
+            TextView noteTextView = (TextView) view.findViewById(R.id.note_text);
+            TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
+            String notes = cursor.getString(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_ENTRY));
+            String dates = Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_DATE)));
+            noteTextView.setText(notes);
+            dateTextView.setText(dates);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return cursorInflater.from(context).inflate(R.layout.note_row_view, parent, false);
+        }
+    }
+
+
 }
