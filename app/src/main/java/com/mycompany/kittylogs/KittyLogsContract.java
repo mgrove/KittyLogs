@@ -11,43 +11,43 @@ public final class KittyLogsContract {
 
     private KittyLogsContract(){}
 
-    public static class CatsTable implements BaseColumns {
-        public static final String TABLE_NAME = "cats";
+    static class CatsTable implements BaseColumns {
+        static final String TABLE_NAME = "cats";
         //        public static final String COLUMN_PK = "id";
-        public static final String COLUMN_CAT_NAME = "name";
-        public static final String CREATE_TABLE =
+        static final String COLUMN_CAT_NAME = "name";
+        static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY," + COLUMN_CAT_NAME + TEXT_TYPE + ")";
-        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        protected static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    public static class NotesTable implements BaseColumns{
-        public static final String TABLE_NAME = "notes";
-        public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_ENTRY = "entry";
-        public static final String COLUMN_CAT_IDFK = "cat_idfk";
+    static class NotesTable implements BaseColumns{
+        static final String TABLE_NAME = "notes";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_ENTRY = "entry";
+        static final String COLUMN_CAT_IDFK = "cat_idfk";
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_DATE + " INTEGER," +
                 COLUMN_ENTRY + " TEXT," +
                 COLUMN_CAT_IDFK + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
-        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
 
-    public static class FoodTable implements BaseColumns{
-        public static final String TABLE_NAME = "food";
-        public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_BRAND = "brand";
-        public static final String COLUMN_FLAVOR = "flavor";
-        public static final String COLUMN_TYPE = "type";
-        public static final String COLUMN_IS_LIKED = "is_liked";
-        public static final String COLUMN_CAT_IDFK = "cat_idfk";
+    static class FoodTable implements BaseColumns{
+        static final String TABLE_NAME = "food";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_BRAND = "brand";
+        static final String COLUMN_FLAVOR = "flavor";
+        static final String COLUMN_TYPE = "type";
+        static final String COLUMN_IS_LIKED = "is_liked";
+        static final String COLUMN_CAT_IDFK = "cat_idfk";
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_DATE + " INTEGER," +
                 COLUMN_BRAND + " TEXT," +
@@ -59,13 +59,13 @@ public final class KittyLogsContract {
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
     }
 
-    public static class WeightTable implements BaseColumns{
-        public static final String TABLE_NAME = "weights";
-        public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_WEIGHT = "weight";
-        public static final String COLUMN_CAT_IDFK = "cat_idfk";
+    static class WeightTable implements BaseColumns{
+        static final String TABLE_NAME = "weights";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_WEIGHT = "weight";
+        static final String COLUMN_CAT_IDFK = "cat_idfk";
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_DATE + " INTEGER," +
                 COLUMN_WEIGHT + " REAL," +
@@ -74,14 +74,14 @@ public final class KittyLogsContract {
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
     }
 
-    public static class VetsTable implements BaseColumns{
-        public static final String TABLE_NAME = "vets";
-        public static final String COLUMN_VET_NAME = "name";
-        public static final String COLUMN_PHONE = "phone";
-        public static final String COLUMN_ADDRESS = "address";
-        public static final String COLUMN_WEBSITE = "website";
+    static class VetsTable implements BaseColumns{
+        static final String TABLE_NAME = "vets";
+        static final String COLUMN_VET_NAME = "name";
+        static final String COLUMN_PHONE = "phone";
+        static final String COLUMN_ADDRESS = "address";
+        static final String COLUMN_WEBSITE = "website";
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_VET_NAME + " TEXT," +
                 COLUMN_PHONE + " TEXT," +

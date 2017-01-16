@@ -13,8 +13,8 @@ import android.database.DatabaseUtils;
  * Created by System User on 9/22/2016.
  */
 public class DBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "KittyLogs.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "KittyLogs.db";
 
     public DBHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -72,15 +72,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getTableCursorFromDB(String tableName){
         String selectQuery = "SELECT * FROM " + tableName;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor query = db.rawQuery(selectQuery, null);
-        return query;
+        return db.rawQuery(selectQuery, null);
     }
 
     public Cursor getTableCursorForCatFromDB(String tableName, String catIDName, long catID){
         String selectQuery = "Select * FROM " + tableName + " WHERE " + catIDName + "=" + catID;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor query = db.rawQuery(selectQuery, null);
-        return query;
+        return db.rawQuery(selectQuery, null);
     }
 
     public void onCreate(SQLiteDatabase db){
