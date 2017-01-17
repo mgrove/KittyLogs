@@ -13,16 +13,7 @@ public class MedicalRecordsActivity extends LaunchActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_medical_records);
-//        setActionBar();
     }
-
-//    private void setActionBar(){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-////        setTitle(catName);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//    }
 
     protected long getCatID(){
         Intent intent = getIntent();

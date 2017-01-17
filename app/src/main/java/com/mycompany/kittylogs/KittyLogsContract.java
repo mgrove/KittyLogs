@@ -80,12 +80,14 @@ public final class KittyLogsContract {
         static final String COLUMN_PHONE = "phone";
         static final String COLUMN_ADDRESS = "address";
         static final String COLUMN_WEBSITE = "website";
+        static final String COLUMN_EMERGENCY = "is_emergency_vet";
 
         static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_VET_NAME + " TEXT," +
                 COLUMN_PHONE + " TEXT," +
                 COLUMN_ADDRESS + " TEXT," +
-                COLUMN_WEBSITE + " TEXT" + ")";
+                COLUMN_WEBSITE + " TEXT," +
+                COLUMN_EMERGENCY + " INTEGER" + ")";
     }
 }
