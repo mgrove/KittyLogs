@@ -9,16 +9,19 @@ import android.os.Bundle;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.mycompany.kittylogs.R.id.cat_list;
@@ -193,5 +196,24 @@ public class HomeScreen extends AppCompatActivity implements AdapterView.OnItemC
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class KLCursorAdapter extends android.support.v4.widget.CursorAdapter {
+        private LayoutInflater cursorInflater;
+
+        protected KLCursorAdapter(Context context, Cursor cursor, int flags){
+            super(context,cursor,flags);
+            cursorInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor){
+            TextView catTextView = (TextView)view.findViewById(R.id.rowTextView);
+            String cats = cursor.getString(cursor.getColumnIndex(KittyLogsContract.CatsTable.COLUMN_CAT_NAME));
+            catTextView.setText(cats);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent){
+            return cursorInflater.from(context).inflate(R.layout.cat_list_text_view, parent, false);
+        }
     }
 }
