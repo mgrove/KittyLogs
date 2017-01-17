@@ -3,17 +3,20 @@ package com.mycompany.kittylogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -167,6 +170,32 @@ public class WeightActivity extends CatDataActivity {
     protected void deleteEntryWithMenu(final long rowID){
         super.deleteEntryWithMenu(rowID);
         repaintChart();
+    }
+
+    public class WeightCursorAdapter extends android.support.v4.widget.CursorAdapter {
+
+        private LayoutInflater cursorInflater;
+        private final Context context;
+
+        protected WeightCursorAdapter(Context context, Cursor cursor, int flags) {
+            super(context, cursor, flags);
+            this.context = context;
+            cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor) {
+            TextView weightTextView = (TextView) view.findViewById(R.id.weight_weighttext);
+            TextView dateTextView = (TextView) view.findViewById(R.id.weight_date);
+            String weights = cursor.getString(cursor.getColumnIndex(KittyLogsContract.WeightTable.COLUMN_WEIGHT));
+            String dates = Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.NotesTable.COLUMN_DATE)));
+            weightTextView.setText(weights);
+            dateTextView.setText(dates);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return cursorInflater.from(context).inflate(R.layout.weight_row_view, parent, false);
+        }
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
@@ -21,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -127,6 +131,40 @@ public class FoodActivity extends CatDataActivity {
         aCursorAdapter = new FoodCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    public class FoodCursorAdapter extends android.support.v4.widget.CursorAdapter {
+
+        private LayoutInflater cursorInflater;
+        private final Context context;
+
+        protected FoodCursorAdapter(Context context, Cursor cursor, int flags) {
+            super(context, cursor, flags);
+            this.context = context;
+            cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor) {
+            TextView brandTextView = (TextView) view.findViewById(R.id.food_brand);
+            TextView flavorTextView = (TextView) view.findViewById(R.id.food_flavor);
+            TextView typeTextView = (TextView) view.findViewById(R.id.food_type);
+            TextView dateTextView = (TextView) view.findViewById(R.id.food_date);
+            TextView likedTextView = (TextView) view.findViewById(R.id.food_liked);
+            String brand = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_BRAND));
+            String flavor = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_FLAVOR));
+            String type = "Type: " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_TYPE));
+            String dates = "Date added: " + Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_DATE)));
+            String liked = "Liked by cat? " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_IS_LIKED));
+            brandTextView.setText(brand);
+            flavorTextView.setText(flavor);
+            typeTextView.setText(type);
+            dateTextView.setText(dates);
+            likedTextView.setText(liked);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return cursorInflater.from(context).inflate(R.layout.food_row_view, parent, false);
+        }
     }
 
 }
