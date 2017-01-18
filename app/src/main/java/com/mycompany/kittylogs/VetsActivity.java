@@ -31,6 +31,21 @@ public class VetsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        populateListView();
+        loadDataWithCursor();
+    }
+
+    private void populateListView(){
+        listView = (ListView) findViewById(R.id.vet_list);
+     //   registerForContextMenu(listView);
+     //   listView.setOnItemClickListener(this);
+    }
+
+    private void loadDataWithCursor(){
+        DBHelper aHelper = new DBHelper(getApplicationContext());
+        aCursor = aHelper.getTableCursorFromDB(KittyLogsContract.VetsTable.TABLE_NAME);
+        listView.setAdapter(aCursorAdapter);
+        aHelper.close();
     }
 
     public class VetsCursorAdapter extends CursorAdapter {

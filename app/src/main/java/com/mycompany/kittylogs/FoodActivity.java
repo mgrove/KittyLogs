@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ public class FoodActivity extends CatDataActivity {
     private Cursor aCursor;
     private FoodCursorAdapter aCursorAdapter;
     ListView listView;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,38 +69,67 @@ public class FoodActivity extends CatDataActivity {
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
         addDialogBuilder.setTitle(R.string.new_food_dialog_title);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
+//        LinearLayout layout = new LinearLayout(this);
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//
+//        final EditText brand = new EditText(this);
+//        brand.setHint("Brand");
+//        layout.addView(brand);
+//
+//        final EditText flavor = new EditText(this);
+//        flavor.setHint("Flavor");
+//        layout.addView(flavor);
+//
+//        final Spinner type = (Spinner)addDialog.findViewById(R.id.type_spinner);
+//        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,R.array.food_type_array,android.R.layout.simple_spinner_item);
+//        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        type.setAdapter(typeAdapter);
+//        layout.addView(type);
+//
+//        final Spinner isLikedByCat = (Spinner)addDialog.findViewById(R.id.liked_spinner);
+//        ArrayAdapter<CharSequence> isLikedAdapter = ArrayAdapter.createFromResource(this,R.array.food_is_liked_array,android.R.layout.simple_spinner_item);
+//        isLikedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        isLikedByCat.setAdapter(isLikedAdapter);
+//        layout.addView(isLikedByCat);
+//
+//        addDialogBuilder.setView(layout);
+//        setAddButtons(addDialogBuilder, brand, flavor, type, isLikedByCat);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.add_food_dialog, null);
+        addDialogBuilder.setView(dialogLayout);
 
-        final EditText brand = new EditText(this);
-        brand.setHint("Brand");
-        layout.addView(brand);
-
-        final EditText flavor = new EditText(this);
-        flavor.setHint("Flavor");
-        layout.addView(flavor);
-
-        final Spinner type = new Spinner(this);
+        final Spinner type = (Spinner)dialogLayout.findViewById(R.id.type_spinner);
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,R.array.food_type_array,android.R.layout.simple_spinner_item);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(typeAdapter);
-        layout.addView(type);
 
-        final Spinner isLikedByCat = new Spinner(this);
+        final Spinner isLikedByCat = (Spinner)dialogLayout.findViewById(R.id.liked_spinner);
         ArrayAdapter<CharSequence> isLikedAdapter = ArrayAdapter.createFromResource(this,R.array.food_is_liked_array,android.R.layout.simple_spinner_item);
         isLikedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         isLikedByCat.setAdapter(isLikedAdapter);
-        layout.addView(isLikedByCat);
 
-        addDialogBuilder.setView(layout);
-        setAddButtons(addDialogBuilder, brand, flavor, type, isLikedByCat);
+        setAddButtons(addDialogBuilder, type, isLikedByCat);
         AlertDialog addDialog = addDialogBuilder.create();
         addDialog.show();
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final EditText brand, final EditText flavor, final Spinner type, final Spinner isLikedByCat){
+    private void setAddButtons(AlertDialog.Builder builder /*, final EditText brand, final EditText flavor*/, final Spinner type, final Spinner isLikedByCat){
         builder.setPositiveButton("Add food", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                Dialog addDialog = (Dialog) dialog;
+                EditText brand = (EditText)addDialog.findViewById(R.id.brand_input);
+                EditText flavor = (EditText)addDialog.findViewById(R.id.flavor_input);
+
+//            //    Spinner type = (Spinner)addDialog.findViewById(R.id.type_spinner);
+//                ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(context,R.array.food_type_array,android.R.layout.simple_spinner_item);
+//                typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                type.setAdapter(typeAdapter);
+//
+//             //   Spinner isLikedByCat = (Spinner)addDialog.findViewById(R.id.liked_spinner);
+//                ArrayAdapter<CharSequence> isLikedAdapter = ArrayAdapter.createFromResource(context,R.array.food_is_liked_array,android.R.layout.simple_spinner_item);
+//                isLikedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                isLikedByCat.setAdapter(isLikedAdapter);
+
                 String brandValue = brand.getText().toString();
                 String flavorValue = flavor.getText().toString();
                 String typeValue = type.getSelectedItem().toString();
