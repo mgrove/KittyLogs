@@ -18,4 +18,5 @@
     <string name="new_weight_dialog_title"> New weight</string>
     <string name="title_activity_weight">WeightActivity</string>
     <string name="title_activity_medical_records">MedicalRecordsActivity</string>
+    <string name="title_activity_vets">VetsActivity</string>
 </resources>

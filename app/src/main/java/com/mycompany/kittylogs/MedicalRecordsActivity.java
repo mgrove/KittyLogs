@@ -27,4 +27,11 @@ public class MedicalRecordsActivity extends LaunchActivity {
     protected int getActivityLayout(){
         return R.layout.activity_medical_records;
     }
+
+    public void startVetsActivity(View view){
+//        Intent intent = new Intent(this, VetsActivity.class);
+//        startActivity(intent);
+        startClassActivity(VetsActivity.class);
+    }
+
 }

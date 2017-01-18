@@ -55,11 +55,21 @@
         <activity
             android:name=".MedicalRecordsActivity"
             android:label="@string/title_activity_medical_records"
+            android:launchMode="singleTop"
             android:parentActivityName=".CatProfileActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mycompany.kittylogs.CatProfileActivity" />
+        </activity>
+        <activity
+            android:name=".VetsActivity"
+            android:label="@string/title_activity_vets"
+            android:parentActivityName=".MedicalRecordsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mycompany.kittylogs.MedicalRecordsActivity" />
         </activity>
     </application>
 
