@@ -60,5 +60,4 @@
             android:id="@+id/liked_spinner" />
     </LinearLayout>
 
-
 </LinearLayout>

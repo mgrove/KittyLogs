@@ -11,4 +11,8 @@
         <item>No</item>
         <item>Somewhat</item>
     </string-array>
+    <string-array name="yes_no_array">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>

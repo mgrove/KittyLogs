@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:hint="Phone"
             android:id="@+id/vet_phone_input" />
-        
+
     </LinearLayout>
 
     <EditText

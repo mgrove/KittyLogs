@@ -16,4 +16,20 @@ public class Extras {
         return monthOfYear + "/" + dayOfMonth + "/" + year;
     }
 
+    public static String convertBoolIntToString(int input){
+        if (input==1){
+            return "Yes";
+        } else {
+            return "No";
+        }
+    }
+
+    public static int convertStringToBoolInt(String input){
+        if (input.equals("Yes")){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }
