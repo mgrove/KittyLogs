@@ -32,7 +32,6 @@ public class VetsActivity extends AppCompatActivity {
 
     public final static String CLICKED_VET = "com.example.kittylogs.VET_NAME";
     ListView listView;
-    Button btnAdd;
     private Cursor aCursor;
     VetsCursorAdapter aCursorAdapter;
     DBHelper aHelper;
@@ -46,7 +45,6 @@ public class VetsActivity extends AppCompatActivity {
 
         populateListView();
         loadDataWithCursor();
-     //   startCreateButtonAndInput();
     }
 
     private void setActionBar(){
@@ -59,7 +57,6 @@ public class VetsActivity extends AppCompatActivity {
     private void populateListView(){
         listView = (ListView) findViewById(R.id.vet_list);
         registerForContextMenu(listView);
-     //   listView.setOnItemClickListener(this);
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -107,19 +104,6 @@ public class VetsActivity extends AppCompatActivity {
         aHelper.removeEntryFromDB(rowID, KittyLogsContract.VetsTable.TABLE_NAME);
         loadDataWithCursor();
     }
-
-//    private void startCreateButtonAndInput(){
-//        btnAdd = (Button) findViewById(R.id.add_vet_button);
-//        startClickListener();
-//    }
-//
-//    private void startClickListener(){
-//        btnAdd.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View arg0){
-//                String
-//            }
-//        });
-//    }
 
     public void openAddVetDialog(View view){
         AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
@@ -189,15 +173,7 @@ public class VetsActivity extends AppCompatActivity {
             super(context,cursor,flags);
             cursorInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-
-        public String convertBoolIntToString(int input){
-            if (input==1){
-                return "Yes";
-            } else {
-                return "No";
-            }
-        }
-
+        
         public void bindView(View view, Context context, Cursor cursor){
             TextView nameTextView = (TextView) view.findViewById(R.id.vet_name);
             TextView phoneTextView = (TextView) view.findViewById(R.id.vet_phone);
@@ -208,7 +184,7 @@ public class VetsActivity extends AppCompatActivity {
             String phone = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_PHONE));
             String address = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_ADDRESS));
             String website = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_WEBSITE));
-            String emergency = "Emergency vet? " + convertBoolIntToString(cursor.getInt(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_EMERGENCY)));
+            String emergency = "Emergency vet? " + Extras.convertBoolIntToString(cursor.getInt(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_EMERGENCY)));
             nameTextView.setText(name);
             phoneTextView.setText(phone);
             addressTextView.setText(address);
