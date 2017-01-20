@@ -12,13 +12,17 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Vet Name"
             android:id="@+id/vet_name_input" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Phone"
             android:id="@+id/vet_phone_input" />
