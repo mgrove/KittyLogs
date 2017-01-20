@@ -14,9 +14,13 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +60,52 @@ public class VetsActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.vet_list);
         registerForContextMenu(listView);
      //   listView.setOnItemClickListener(this);
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_delete, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_delete:
+                makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(deleteDialogBuilder);
+        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this?";
+        deleteDialogBuilder.setMessage(deleteMessageString)
+                .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteEntryWithMenu(rowID);
+            }
+        });
+        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){}
+        });
+    }
+
+    protected void deleteEntryWithMenu(final long rowID){
+        aHelper.removeEntryFromDB(rowID, KittyLogsContract.VetsTable.TABLE_NAME);
+        loadDataWithCursor();
     }
 
 //    private void startCreateButtonAndInput(){
