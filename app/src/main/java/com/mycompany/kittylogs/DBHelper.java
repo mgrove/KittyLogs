@@ -88,8 +88,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(KittyLogsContract.WeightTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.VetsTable.CREATE_TABLE);
 
+
         Log.d("Food SQL", KittyLogsContract.FoodTable.CREATE_TABLE);
-        Log.d("Notes SQL", KittyLogsContract.NotesTable.CREATE_TABLE);
+        Log.d("Vet Visits SQL", KittyLogsContract.VetVisitsTable.CREATE_TABLE);
+
+        db.execSQL(KittyLogsContract.VetVisitsTable.CREATE_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){

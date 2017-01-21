@@ -90,4 +90,23 @@ public final class KittyLogsContract {
                 COLUMN_WEBSITE + " TEXT," +
                 COLUMN_EMERGENCY + " INTEGER" + ")";
     }
+
+    static class VetVisitsTable implements BaseColumns{
+        static final String TABLE_NAME = "vet_visits";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_DIRECTIONS = "directions";
+        static final String COLUMN_VET_IDFK = "vet_idfk";
+        static final String COLUMN_CAT_IDFK = "cat_idfk";
+
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                " (" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_DATE + " INTEGER," +
+                COLUMN_DIRECTIONS + " TEXT," +
+                COLUMN_VET_IDFK + " INTEGER," +
+                COLUMN_CAT_IDFK + " INTEGER," +
+                "FOREIGN KEY (" + COLUMN_VET_IDFK + ") REFERENCES " +
+                VetsTable.TABLE_NAME + "(" + VetsTable._ID + ")," +
+                "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
+                CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
+    }
 }
