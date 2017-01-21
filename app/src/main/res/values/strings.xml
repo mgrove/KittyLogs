@@ -21,4 +21,5 @@
     <string name="title_activity_medical_records">MedicalRecordsActivity</string>
     <string name="title_activity_vets">VetsActivity</string>
     <string name="title_activity_vet_visits">VetVisitsActivity</string>
+    <string name="title_activity_visit_profile">VisitProfileActivity</string>
 </resources>
