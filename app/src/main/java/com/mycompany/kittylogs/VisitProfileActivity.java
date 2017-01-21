@@ -1,29 +1,38 @@
 package com.mycompany.kittylogs;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 public class VisitProfileActivity extends AppCompatActivity {
-
+    DBHelper aHelper;
+    long catID;
+    String catName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visit_profile);
+        setVariables();
+        setActionBar();
+    }
+
+    private void setVariables(){
+        aHelper = new DBHelper(getApplicationContext());
+        catID = getCatID();
+        catName = aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
+    }
+
+    private long getCatID() {
+        Intent intent = getIntent();
+        return intent.getLongExtra(CatProfileActivity.CAT_ID, 0);
+    }
+
+    private void setActionBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        setTitle("Visit profile for " + catName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }
