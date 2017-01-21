@@ -1,6 +1,7 @@
 package com.mycompany.kittylogs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 public class VetVisitsActivity extends CatDataActivity {
     private Cursor aCursor;
     private VetVisitsCursorAdapter aCursorAdapter;
+    public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
+
     ListView listView;
 
     @Override
@@ -48,6 +51,12 @@ public class VetVisitsActivity extends CatDataActivity {
         aCursorAdapter = new VetVisitsCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    public void openAddVisitProfile(View view){
+        Intent intent = new Intent(this, VisitProfileActivity.class);
+        intent.putExtra(CAT_ID, catID);
+        startActivity(intent);
     }
 
     public class VetVisitsCursorAdapter extends android.support.v4.widget.CursorAdapter {
