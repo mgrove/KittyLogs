@@ -71,6 +71,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mycompany.kittylogs.MedicalRecordsActivity" />
         </activity>
+        <activity
+            android:name=".VetVisitsActivity"
+            android:label="@string/title_activity_vet_visits"
+            android:parentActivityName=".MedicalRecordsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mycompany.kittylogs.MedicalRecordsActivity" />
+        </activity>
     </application>
 
 </manifest>

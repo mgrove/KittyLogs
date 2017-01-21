@@ -15,6 +15,13 @@
     android:orientation="vertical">
 
     <Button
+        android:text="Vet visits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vet_visits_button"
+        android:onClick="startVetVisitsActivity" />
+
+    <Button
         android:text="Vets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

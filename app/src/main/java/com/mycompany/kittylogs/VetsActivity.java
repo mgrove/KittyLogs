@@ -173,7 +173,7 @@ public class VetsActivity extends AppCompatActivity {
             super(context,cursor,flags);
             cursorInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        
+
         public void bindView(View view, Context context, Cursor cursor){
             TextView nameTextView = (TextView) view.findViewById(R.id.vet_name);
             TextView phoneTextView = (TextView) view.findViewById(R.id.vet_phone);

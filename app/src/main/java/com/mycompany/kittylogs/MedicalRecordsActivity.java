@@ -29,9 +29,11 @@ public class MedicalRecordsActivity extends LaunchActivity {
     }
 
     public void startVetsActivity(View view){
-//        Intent intent = new Intent(this, VetsActivity.class);
-//        startActivity(intent);
         startClassActivity(VetsActivity.class);
+    }
+
+    public void startVetVisitsActivity(View view){
+        startClassActivity(VetVisitsActivity.class);
     }
 
 }
