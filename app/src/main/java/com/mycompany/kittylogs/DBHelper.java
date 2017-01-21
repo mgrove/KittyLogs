@@ -61,10 +61,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public String getValueFromDB(String columnName, String tableName, String tableID, long id){
         String[] selectionArgs = {Long.toString(id)};
         SQLiteDatabase db = this.getReadableDatabase();
-        String getCatQuery = "SELECT " + columnName +
+        String getValueQuery = "SELECT " + columnName +
                 " FROM " + tableName +
                 " WHERE " + tableID + "= ?";
-        String result = DatabaseUtils.stringForQuery(db, getCatQuery, selectionArgs);
+        String result = DatabaseUtils.stringForQuery(db, getValueQuery, selectionArgs);
         db.close();
         return result;
     }
