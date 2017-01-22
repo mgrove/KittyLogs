@@ -1,6 +1,9 @@
 package com.mycompany.kittylogs;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,10 +12,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class VetVisitsActivity extends CatDataActivity {
@@ -54,9 +59,39 @@ public class VetVisitsActivity extends CatDataActivity {
     }
 
     public void openAddVisitProfile(View view){
-        Intent intent = new Intent(this, VisitProfileActivity.class);
-        intent.putExtra(CAT_ID, catID);
-        startActivity(intent);
+        Log.d("OpenAddVisitProfile", "lalala");
+        AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
+        addDialogBuilder.setTitle("New visit");
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.add_visit_dialog, null);
+        addDialogBuilder.setView(dialogLayout);
+        Cursor vetSpinnerCursor = aHelper.getTableCursorFromDB(KittyLogsContract.VetsTable.TABLE_NAME);
+
+        final ListView chooseVetListView = (ListView)dialogLayout.findViewById(R.id.vet_spinner);
+        NewVisitVetsCursorAdapter spinnerAdapter = new NewVisitVetsCursorAdapter(this, vetSpinnerCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+      //  spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        chooseVetListView.setAdapter(spinnerAdapter);
+
+        setAddButtons(addDialogBuilder, chooseVetListView);
+        AlertDialog addDialog = addDialogBuilder.create();
+        addDialog.show();
+
+//        Intent intent = new Intent(this, VisitProfileActivity.class);
+//        intent.putExtra(CAT_ID, catID);
+//        startActivity(intent);
+    }
+
+    private void setAddButtons(AlertDialog.Builder builder, final ListView vetListView){
+        builder.setPositiveButton("Add visit", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                Dialog addDialog = (Dialog) dialog;
+                String vetSpinnerString = vetListView.getSelectedItem().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {}
+        });
     }
 
     public class VetVisitsCursorAdapter extends android.support.v4.widget.CursorAdapter {
@@ -81,9 +116,28 @@ public class VetVisitsActivity extends CatDataActivity {
         }
 
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return cursorInflater.from(context).inflate(R.layout.food_row_view, parent, false);
+            return cursorInflater.from(context).inflate(R.layout.vet_visit_row_view, parent, false);
         }
 
+    }
+
+    public class NewVisitVetsCursorAdapter extends android.support.v4.widget.CursorAdapter{
+        private LayoutInflater cursorInflater;
+
+        protected NewVisitVetsCursorAdapter(Context context, Cursor cursor, int flags){
+            super(context, cursor, flags);
+            cursorInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor){
+            TextView textView = (TextView) view.findViewById(R.id.add_visit_spinner_row);
+            String vet_name = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VetsTable.COLUMN_VET_NAME));
+            textView.setText(vet_name);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent){
+            return cursorInflater.from(context).inflate(R.layout.add_visit_vet_row_view, parent, false);
+        }
     }
 
 }
