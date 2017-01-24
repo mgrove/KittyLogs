@@ -24,6 +24,7 @@ public class VetVisitsActivity extends CatDataActivity {
     private Cursor aCursor;
     private VetVisitsCursorAdapter aCursorAdapter;
     public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
+    public final static String VET_ID = "com.mycompany.kittylogs.VET_ID";
 
     ListView listView;
 
@@ -68,7 +69,7 @@ public class VetVisitsActivity extends CatDataActivity {
         addDialogBuilder.setView(dialogLayout);
         Cursor vetSpinnerCursor = aHelper.getTableCursorFromDB(KittyLogsContract.VetsTable.TABLE_NAME);
 
-        final ListView chooseVetListView = (ListView)dialogLayout.findViewById(R.id.vet_spinner);
+        final Spinner chooseVetListView = (Spinner)dialogLayout.findViewById(R.id.vet_spinner);
         NewVisitVetsCursorAdapter spinnerAdapter = new NewVisitVetsCursorAdapter(this, vetSpinnerCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
       //  spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         chooseVetListView.setAdapter(spinnerAdapter);
@@ -82,11 +83,12 @@ public class VetVisitsActivity extends CatDataActivity {
 //        startActivity(intent);
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final ListView vetListView){
+    private void setAddButtons(AlertDialog.Builder builder, final Spinner vetSpinner){
         builder.setPositiveButton("Add visit", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
                 Dialog addDialog = (Dialog) dialog;
-                String vetSpinnerString = vetListView.getSelectedItem().toString();
+                Long vetSpinnerID = ((Cursor)vetSpinner.getSelectedItem()).getLong(0);
+                Log.d("Vet Selected:", Long.toString(vetSpinnerID));
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
