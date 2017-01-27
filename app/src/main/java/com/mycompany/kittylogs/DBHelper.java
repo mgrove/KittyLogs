@@ -81,6 +81,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery(selectQuery, null);
     }
 
+    public Cursor getLastAddedRecordFromDB(String tableName){
+        String selectQuery = "SELECT * FROM " + tableName + " ORDER BY _id DESC LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(selectQuery, null);
+    }
+
     public void onCreate(SQLiteDatabase db){
         db.execSQL(KittyLogsContract.CatsTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.NotesTable.CREATE_TABLE);

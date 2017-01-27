@@ -2,10 +2,12 @@ package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,11 +22,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import static java.lang.System.currentTimeMillis;
+
 public class VetVisitsActivity extends CatDataActivity {
     private Cursor aCursor;
     private VetVisitsCursorAdapter aCursorAdapter;
     public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
-    public final static String VET_ID = "com.mycompany.kittylogs.VET_ID";
+    public final static String VISIT_ID = "com.mycompany.kittylogs.VISIT_ID";
 
     ListView listView;
 
@@ -74,7 +78,7 @@ public class VetVisitsActivity extends CatDataActivity {
       //  spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         chooseVetListView.setAdapter(spinnerAdapter);
 
-        setAddButtons(addDialogBuilder, chooseVetListView);
+        setAddButtons(addDialogBuilder, chooseVetListView, this);
         AlertDialog addDialog = addDialogBuilder.create();
         addDialog.show();
 
@@ -83,12 +87,25 @@ public class VetVisitsActivity extends CatDataActivity {
 //        startActivity(intent);
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final Spinner vetSpinner){
+    private void setAddButtons(AlertDialog.Builder builder, final Spinner vetSpinner, final Context context){
         builder.setPositiveButton("Add visit", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
                 Dialog addDialog = (Dialog) dialog;
                 Long vetSpinnerID = ((Cursor)vetSpinner.getSelectedItem()).getLong(0);
+                aHelper.addEntryToDB(makeVisitContentValues(vetSpinnerID), KittyLogsContract.VetVisitsTable.TABLE_NAME);
+                Cursor visitCursor = aHelper.getLastAddedRecordFromDB(KittyLogsContract.VetVisitsTable.TABLE_NAME);
+                Log.d("Column Index:", Integer.toString(visitCursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK)));
+                Long visitID = null;
+                if (visitCursor != null && visitCursor.moveToFirst()) {
+                    visitID = visitCursor.getLong(visitCursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK));
+                }
+                Log.d("Visits Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.VetVisitsTable.TABLE_NAME)));
+
                 Log.d("Vet Selected:", Long.toString(vetSpinnerID));
+                Intent intent = new Intent(context, VisitProfileActivity.class);
+                intent.putExtra(CAT_ID, catID);
+                intent.putExtra(VISIT_ID, visitID);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -96,10 +113,19 @@ public class VetVisitsActivity extends CatDataActivity {
         });
     }
 
+    public ContentValues makeVisitContentValues(long vetID){
+        ContentValues values = new ContentValues();
+        values.put(KittyLogsContract.VetVisitsTable.COLUMN_DATE, currentTimeMillis());
+        values.put(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK, vetID);
+        values.put(KittyLogsContract.VetVisitsTable.COLUMN_CAT_IDFK, catID);
+        values.put(KittyLogsContract.VetVisitsTable.COLUMN_DIRECTIONS, "None");
+        return values;
+    }
+
     public class VetVisitsCursorAdapter extends android.support.v4.widget.CursorAdapter {
         private LayoutInflater cursorInflater;
         private final Context context;
-        private DBHelper aHelper;
+        private DBHelper aHelper = new DBHelper(getApplicationContext());
 
         protected VetVisitsCursorAdapter(Context context, Cursor cursor, int flags){
             super(context, cursor, flags);
@@ -109,9 +135,12 @@ public class VetVisitsActivity extends CatDataActivity {
 
         public void bindView(View view, Context context, Cursor cursor){
             TextView dateTextView = (TextView) view.findViewById(R.id.visit_date);
+            Log.d("Visited vet view:", Long.toString(R.id.visited_vet));
             TextView visitedVetTextView = (TextView) view.findViewById(R.id.visited_vet);
             String date = Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_DATE)));
             Long visitedVetID = cursor.getLong(cursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK));
+            Log.d("Visited vet ID:", Long.toString(visitedVetID));
+
             String visitedVetString = aHelper.getValueFromDB(KittyLogsContract.VetsTable.COLUMN_VET_NAME, KittyLogsContract.VetsTable.TABLE_NAME, KittyLogsContract.VetsTable._ID, visitedVetID);
             dateTextView.setText(date);
             visitedVetTextView.setText(visitedVetString);
