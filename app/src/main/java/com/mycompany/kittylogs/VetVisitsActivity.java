@@ -90,18 +90,16 @@ public class VetVisitsActivity extends CatDataActivity {
     private void setAddButtons(AlertDialog.Builder builder, final Spinner vetSpinner, final Context context){
         builder.setPositiveButton("Add visit", new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
-                Dialog addDialog = (Dialog) dialog;
+ //               Dialog addDialog = (Dialog) dialog;
                 Long vetSpinnerID = ((Cursor)vetSpinner.getSelectedItem()).getLong(0);
                 aHelper.addEntryToDB(makeVisitContentValues(vetSpinnerID), KittyLogsContract.VetVisitsTable.TABLE_NAME);
                 Cursor visitCursor = aHelper.getLastAddedRecordFromDB(KittyLogsContract.VetVisitsTable.TABLE_NAME);
-                Log.d("Column Index:", Integer.toString(visitCursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK)));
                 Long visitID = null;
                 if (visitCursor != null && visitCursor.moveToFirst()) {
-                    visitID = visitCursor.getLong(visitCursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK));
+                    visitID = visitCursor.getLong(visitCursor.getColumnIndex(KittyLogsContract.VetVisitsTable._ID));
                 }
-                Log.d("Visits Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.VetVisitsTable.TABLE_NAME)));
+                loadDataWithCursor();
 
-                Log.d("Vet Selected:", Long.toString(vetSpinnerID));
                 Intent intent = new Intent(context, VisitProfileActivity.class);
                 intent.putExtra(CAT_ID, catID);
                 intent.putExtra(VISIT_ID, visitID);
@@ -135,12 +133,9 @@ public class VetVisitsActivity extends CatDataActivity {
 
         public void bindView(View view, Context context, Cursor cursor){
             TextView dateTextView = (TextView) view.findViewById(R.id.visit_date);
-            Log.d("Visited vet view:", Long.toString(R.id.visited_vet));
             TextView visitedVetTextView = (TextView) view.findViewById(R.id.visited_vet);
             String date = Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_DATE)));
             Long visitedVetID = cursor.getLong(cursor.getColumnIndex(KittyLogsContract.VetVisitsTable.COLUMN_VET_IDFK));
-            Log.d("Visited vet ID:", Long.toString(visitedVetID));
-
             String visitedVetString = aHelper.getValueFromDB(KittyLogsContract.VetsTable.COLUMN_VET_NAME, KittyLogsContract.VetsTable.TABLE_NAME, KittyLogsContract.VetsTable._ID, visitedVetID);
             dateTextView.setText(date);
             visitedVetTextView.setText(visitedVetString);
