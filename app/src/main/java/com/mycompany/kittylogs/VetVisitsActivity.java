@@ -18,13 +18,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import static java.lang.System.currentTimeMillis;
 
-public class VetVisitsActivity extends CatDataActivity {
+public class VetVisitsActivity extends CatDataActivity implements AdapterView.OnItemClickListener{
     private Cursor aCursor;
     private VetVisitsCursorAdapter aCursorAdapter;
     public final static String CAT_ID = "com.mycompany.kittylogs.CAT_ID";
@@ -37,6 +38,7 @@ public class VetVisitsActivity extends CatDataActivity {
         super.onCreate(savedInstanceState);
         listView = (ListView) findViewById(R.id.vet_visit_list);
         registerForContextMenu(listView);
+        listView.setOnItemClickListener(this);
         loadDataWithCursor();
     }
 
@@ -61,6 +63,13 @@ public class VetVisitsActivity extends CatDataActivity {
         aCursorAdapter = new VetVisitsCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, VisitProfileActivity.class);
+        intent.putExtra(VISIT_ID,id);
+        intent.putExtra(CAT_ID, catID);
+        startActivity(intent);
     }
 
     public void openAddVisitProfile(View view){
