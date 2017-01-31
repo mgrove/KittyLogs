@@ -28,6 +28,10 @@ public class MedicalRecordsActivity extends LaunchActivity {
         return R.layout.activity_medical_records;
     }
 
+    public void startMedsActivity(View view){
+        startClassActivity(MedsActivity.class);
+    }
+
     public void startVetsActivity(View view){
         startClassActivity(VetsActivity.class);
     }
