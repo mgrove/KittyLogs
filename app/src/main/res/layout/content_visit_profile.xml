@@ -16,7 +16,11 @@
     tools:showIn="@layout/activity_visit_profile">
 
     <TextView
+        android:id="@+id/visit_profile_vet_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </LinearLayout>
