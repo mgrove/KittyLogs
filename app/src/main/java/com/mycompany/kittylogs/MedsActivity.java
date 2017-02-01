@@ -18,4 +18,6 @@ public class MedsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
+
 }

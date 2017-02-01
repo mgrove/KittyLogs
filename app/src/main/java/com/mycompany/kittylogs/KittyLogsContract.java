@@ -112,23 +112,19 @@ public final class KittyLogsContract {
 
     static class MedsTable implements BaseColumns{
         static final String TABLE_NAME = "meds";
-        static final String COLUMN_TYPE = "type";
+        static final String COLUMN_MED_NAME = "name";
         static final String COLUMN_NOTES = "notes";
         static final String COLUMN_DOSAGE = "dosage";
         static final String COLUMN_IS_DONE = "is_done";
         static final String COLUMN_CAT_IDFK = "cat_idfk";
-        static final String COLUMN_VET_IDFK = "vet_idfk";
 
         static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 " (" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_TYPE + " TEXT," +
+                COLUMN_MED_NAME + " TEXT," +
                 COLUMN_NOTES + " TEXT," +
                 COLUMN_DOSAGE + " TEXT," +
                 COLUMN_IS_DONE + " INTEGER," +
                 COLUMN_CAT_IDFK + " INTEGER," +
-                COLUMN_VET_IDFK + " INTEGER," +
-                "FOREIGN KEY (" + COLUMN_VET_IDFK + ") REFERENCES " +
-                VetsTable.TABLE_NAME + "(" + VetsTable._ID + ")," +
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
 
