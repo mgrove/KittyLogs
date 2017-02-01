@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ public class MedsActivity extends CatDataActivity {
     private Cursor aCursor;
     private MedsCursorAdapter aCursorAdapter;
     ListView listView;
+    AlertDialog addDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class MedsActivity extends CatDataActivity {
         View dialogLayout = inflater.inflate(R.layout.add_med_dialog, null);
         addDialogBuilder.setView(dialogLayout);
         setAddButtons(addDialogBuilder);
-        AlertDialog addDialog = addDialogBuilder.create();
+        addDialog = addDialogBuilder.create();
         addDialog.show();
     }
 
@@ -111,6 +113,7 @@ public class MedsActivity extends CatDataActivity {
         switch (item.getItemId()) {
             case R.id.cnt_mnu_mark_done:
                 aHelper.editEntryInDB(makeDoneContentValues(), info.id, KittyLogsContract.MedsTable.TABLE_NAME);
+                loadDataWithCursor();
                 break;
             case R.id.cnt_mnu_delete:
                 super.makeDeleteDialog(info.id, aHelper);
@@ -143,6 +146,16 @@ public class MedsActivity extends CatDataActivity {
             String med = cursor.getString(cursor.getColumnIndex(KittyLogsContract.MedsTable.COLUMN_MED_NAME));
             String dosage = cursor.getString(cursor.getColumnIndex(KittyLogsContract.MedsTable.COLUMN_DOSAGE));
             String notes = cursor.getString(cursor.getColumnIndex(KittyLogsContract.MedsTable.COLUMN_NOTES));
+            int isDone = (int)cursor.getLong(cursor.getColumnIndex(KittyLogsContract.MedsTable.COLUMN_IS_DONE));
+            if (isDone == 1){
+                medTextView.setTextColor(Color.LTGRAY);
+                dosageTextView.setTextColor(Color.LTGRAY);
+                notesTextView.setTextColor(Color.LTGRAY);
+            } else {
+                medTextView.setTextColor(Color.BLACK);
+                dosageTextView.setTextColor(Color.BLACK);
+                notesTextView.setTextColor(Color.BLACK);
+            }
 
             medTextView.setText(med);
             dosageTextView.setText(dosage);
@@ -155,4 +168,9 @@ public class MedsActivity extends CatDataActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        addDialog.dismiss();
+    }
 }
