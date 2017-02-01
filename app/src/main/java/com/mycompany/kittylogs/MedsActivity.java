@@ -9,9 +9,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,10 +34,6 @@ public class MedsActivity extends CatDataActivity {
         listView = (ListView) findViewById(R.id.meds_list);
         registerForContextMenu(listView);
         loadDataWithCursor();
- //       setContentView(R.layout.activity_meds);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     protected String getMainTableName(){
@@ -98,6 +99,33 @@ public class MedsActivity extends CatDataActivity {
         aCursorAdapter = new MedsCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(aCursorAdapter);
         aHelper.close();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.superOnCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.med_actions, menu);;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_mark_done:
+                aHelper.editEntryInDB(makeDoneContentValues(), info.id, KittyLogsContract.MedsTable.TABLE_NAME);
+                break;
+            case R.id.cnt_mnu_delete:
+                super.makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    private ContentValues makeDoneContentValues(){
+        ContentValues values = new ContentValues();
+        values.put(KittyLogsContract.MedsTable.COLUMN_IS_DONE, 1);
+        return values;
     }
 
     public class MedsCursorAdapter extends android.support.v4.widget.CursorAdapter {

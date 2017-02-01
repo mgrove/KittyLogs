@@ -56,6 +56,10 @@ public abstract class CatDataActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_delete, menu);
     }
 
+    protected void superOnCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
@@ -66,7 +70,7 @@ public abstract class CatDataActivity extends AppCompatActivity {
         return true;
     }
 
-    private void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+    protected void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
         makeDeleteMessage(deleteDialogBuilder);
         setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
