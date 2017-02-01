@@ -142,11 +142,13 @@ public class FoodActivity extends CatDataActivity {
             TextView typeTextView = (TextView) view.findViewById(R.id.food_type);
             TextView dateTextView = (TextView) view.findViewById(R.id.food_date);
             TextView likedTextView = (TextView) view.findViewById(R.id.food_liked);
+
             String brand = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_BRAND));
             String flavor = cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_FLAVOR));
             String type = "Type: " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_TYPE));
             String dates = "Date added: " + Extras.convertMillisecondsToDate(cursor.getLong(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_DATE)));
             String liked = "Liked by cat? " + cursor.getString(cursor.getColumnIndex(KittyLogsContract.FoodTable.COLUMN_IS_LIKED));
+
             brandTextView.setText(brand);
             flavorTextView.setText(flavor);
             typeTextView.setText(type);
