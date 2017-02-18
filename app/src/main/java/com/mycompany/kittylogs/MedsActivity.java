@@ -167,10 +167,10 @@ public class MedsActivity extends CatDataActivity {
         }
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        addDialog.dismiss();
-    }
+//    I'm not sure why I added this code, but it was throwing an error.
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        addDialog.dismiss();
+//    }
 }
