@@ -2,20 +2,28 @@ package com.mycompany.kittylogs;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class VisitProfileActivity extends AppCompatActivity {
     DBHelper aHelper;
+    private Cursor vaccinesCursor;
+    private VaccinesCursorAdapter vaccinesCursorAdapter;
+
     long catID;
     long visitID;
     String catName;
@@ -30,9 +38,11 @@ public class VisitProfileActivity extends AppCompatActivity {
         setVariables();
         setActionBar();
         setVetTextView();
+        loadVaccineDataWithCursor();
     }
 
     private void setVariables(){
+        vaccinesListView = (ListView) findViewById(R.id.visit_vaccine_list);
         aHelper = new DBHelper(getApplicationContext());
         setCatAndVet();
         Log.d("Vet ID:", Long.toString(visitID));
@@ -66,18 +76,18 @@ public class VisitProfileActivity extends AppCompatActivity {
         addDialogBuilder.setTitle("New Vaccine");
         final EditText input = new EditText(this);
         addDialogBuilder.setView(input);
-        setAddButtons(addDialogBuilder, input);
+        setAddVaccineButtons(addDialogBuilder, input);
         AlertDialog addDialog = addDialogBuilder.create();
         addDialog.show();
     }
 
-    private void setAddButtons(AlertDialog.Builder builder, final EditText input){
+    private void setAddVaccineButtons(AlertDialog.Builder builder, final EditText input){
         builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
                 aHelper.addEntryToDB(makeVaccineContentValues(value), KittyLogsContract.VaccinesTable.TABLE_NAME);
                 Log.d("Vaccines Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.VaccinesTable.TABLE_NAME)));
-        //        loadDataWithCursor();
+                loadVaccineDataWithCursor();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -92,6 +102,36 @@ public class VisitProfileActivity extends AppCompatActivity {
         values.put(KittyLogsContract.VaccinesTable.COLUMN_CAT_IDFK, catID);
         values.put(KittyLogsContract.VaccinesTable.COLUMN_VET_VISIT_IDFK, visitID);
         return values;
+    }
+
+    protected void loadVaccineDataWithCursor(){
+        vaccinesCursor = aHelper.getTableCursorForCatAndVisitFromDB(KittyLogsContract.VaccinesTable.TABLE_NAME, KittyLogsContract.VaccinesTable.COLUMN_CAT_IDFK, catID, KittyLogsContract.VaccinesTable.COLUMN_VET_VISIT_IDFK, visitID);
+        vaccinesCursorAdapter = new VisitProfileActivity.VaccinesCursorAdapter(this, vaccinesCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        vaccinesListView.setAdapter(vaccinesCursorAdapter);
+        aHelper.close();
+    }
+
+    public class VaccinesCursorAdapter extends CursorAdapter {
+
+        private LayoutInflater cursorInflater;
+        private final Context context;
+
+        protected VaccinesCursorAdapter(Context context, Cursor cursor, int flags){
+            super(context, cursor, flags);
+            this.context = context;
+            cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor){
+            TextView vaccineTextView = (TextView) view.findViewById(R.id.rowTextView);
+            String name = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VaccinesTable.COLUMN_VACCINE_NAME));
+            vaccineTextView.setText(name);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent){
+            return cursorInflater.from(context).inflate(R.layout.cat_list_text_view, parent, false);
+        }
+
     }
 
 }

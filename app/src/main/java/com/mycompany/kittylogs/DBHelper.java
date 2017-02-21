@@ -81,6 +81,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery(selectQuery, null);
     }
 
+    public Cursor getTableCursorForCatAndVisitFromDB(String tableName, String catIDName, long catID, String vetIDName, long vetID){
+        String selectQuery = "Select * FROM " + tableName + " WHERE " + catIDName + "=" + catID + " AND " + vetIDName + "=" + vetID;
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(selectQuery, null);
+    }
+
     public Cursor getLastAddedRecordFromDB(String tableName){
         String selectQuery = "SELECT * FROM " + tableName + " ORDER BY _id DESC LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
