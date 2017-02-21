@@ -123,13 +123,13 @@ public class VisitProfileActivity extends AppCompatActivity {
         }
 
         public void bindView(View view, Context context, Cursor cursor){
-            TextView vaccineTextView = (TextView) view.findViewById(R.id.rowTextView);
+            TextView vaccineTextView = (TextView) view.findViewById(R.id.small_basic_row_view);
             String name = cursor.getString(cursor.getColumnIndex(KittyLogsContract.VaccinesTable.COLUMN_VACCINE_NAME));
             vaccineTextView.setText(name);
         }
 
         public View newView(Context context, Cursor cursor, ViewGroup parent){
-            return cursorInflater.from(context).inflate(R.layout.cat_list_text_view, parent, false);
+            return cursorInflater.from(context).inflate(R.layout.small_basic_row_view, parent, false);
         }
 
     }
