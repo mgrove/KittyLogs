@@ -20,7 +20,7 @@ import android.widget.TextView;
 import static java.lang.System.currentTimeMillis;
 
 public class NotesActivity extends CatDataActivity {
-    public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
+ //   public final static String NOTES_CAT_ID = "com.mycompany.kittylogs.JOURNAL_CAT_ID";
     private Cursor aCursor;
     private NotesCursorAdapter aCursorAdapter;
     ListView listView;
@@ -115,6 +115,4 @@ public class NotesActivity extends CatDataActivity {
             return cursorInflater.from(context).inflate(R.layout.note_row_view, parent, false);
         }
     }
-
-
 }
