@@ -32,6 +32,10 @@ public class MedicalRecordsActivity extends LaunchActivity {
         startClassActivity(MedsActivity.class);
     }
 
+    public void startVaccinesActivity(View view){
+        startClassActivity(VaccinesActivity.class);
+    }
+
     public void startVetsActivity(View view){
         startClassActivity(VetsActivity.class);
     }
