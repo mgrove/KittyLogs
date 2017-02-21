@@ -14,19 +14,45 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class VaccinesActivity extends AppCompatActivity {
+public class VaccinesActivity extends CatDataActivity {
     private Cursor aCursor;
+    private VaccinesCursorAdapter aCursorAdapter;
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listView = (ListView) findViewById(R.id.vaccines_list);
+        loadDataWithCursor();
 
         //these will not be needed once CatDataActivity is extended
-        setContentView(R.layout.activity_vaccines);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setContentView(R.layout.activity_vaccines);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    protected String getMainTableName(){
+        return KittyLogsContract.VaccinesTable.TABLE_NAME;
+    }
+
+    protected String getMainTableColumnCatIDFK(){
+        return KittyLogsContract.VaccinesTable.COLUMN_CAT_IDFK;
+    }
+
+    protected int getActivityLayout(){
+        return R.layout.activity_vaccines;
+    }
+
+    public String makeTitleString(){
+        return "Vaccines for " + aHelper.getValueFromDB(KittyLogsContract.CatsTable.COLUMN_CAT_NAME, KittyLogsContract.CatsTable.TABLE_NAME, KittyLogsContract.CatsTable._ID, catID);
+    }
+
+    protected void loadDataWithCursor(){
+        aCursor = aHelper.getTableCursorForCatFromDB(KittyLogsContract.VaccinesTable.TABLE_NAME, KittyLogsContract.VaccinesTable.COLUMN_CAT_IDFK, catID);
+        aCursorAdapter = new VaccinesCursorAdapter(this, aCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        listView.setAdapter(aCursorAdapter);
+        aHelper.close();
     }
 
     public class VaccinesCursorAdapter extends CursorAdapter {
