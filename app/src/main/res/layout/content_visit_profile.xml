@@ -23,4 +23,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_vaccine_button"
+        android:text="New vaccine"
+        android:hint="Name"
+        android:onClick="openAddVaccineDialog" />
+
 </LinearLayout>
