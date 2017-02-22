@@ -3,11 +3,7 @@ package com.mycompany.kittylogs;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.CursorAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +57,8 @@ public class VaccinesActivity extends CatDataActivity {
         }
 
         public void bindView(View view, Context context, Cursor cursor){
-            TextView dateTextView = (TextView) view.findViewById(R.id.vaccine_date);
-            TextView nameTextView = (TextView) view.findViewById(R.id.vaccine_name);
+            TextView dateTextView = (TextView) view.findViewById(R.id.date_name_row_date);
+            TextView nameTextView = (TextView) view.findViewById(R.id.date_name_row_name);
             Long visitID = cursor.getLong(cursor.getColumnIndex(KittyLogsContract.VaccinesTable.COLUMN_VET_VISIT_IDFK));
             Long date = Long.parseLong(aHelper.getValueFromDB(KittyLogsContract.VetVisitsTable.COLUMN_DATE,
                     KittyLogsContract.VetVisitsTable.TABLE_NAME,
@@ -76,7 +72,7 @@ public class VaccinesActivity extends CatDataActivity {
         }
 
         public View newView(Context context, Cursor cursor, ViewGroup parent){
-            return cursorInflater.from(context).inflate(R.layout.vaccine_row_view, parent, false);
+            return cursorInflater.from(context).inflate(R.layout.date_name_row_view, parent, false);
         }
     }
 
