@@ -25,4 +25,5 @@
     <string name="title_activity_visit_profile">VisitProfileActivity</string>
     <string name="title_activity_meds">MedsActivity</string>
     <string name="title_activity_vaccines">VaccinesActivity</string>
+    <string name="title_activity_diagnoses">DiagnosesActivity</string>
 </resources>

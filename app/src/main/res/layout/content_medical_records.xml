@@ -29,6 +29,13 @@
         android:onClick="startVaccinesActivity" />
 
     <Button
+        android:text="Diagnoses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/diagnoses_button"
+        android:onClick="startDiagnosesActivity" />
+
+    <Button
         android:text="Vet visits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
