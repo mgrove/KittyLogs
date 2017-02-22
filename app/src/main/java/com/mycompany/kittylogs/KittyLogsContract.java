@@ -145,4 +145,21 @@ public final class KittyLogsContract {
                 "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
                 CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
     }
+
+    static class DiagnosesTable implements BaseColumns{
+        static final String TABLE_NAME = "diagnoses";
+        static final String COLUMN_DIAGNOSIS = "diagnosis";
+        static final String COLUMN_VET_VISIT_IDFK = "visit_idfk";
+        static final String COLUMN_CAT_IDFK = "cat_idfk";
+
+        static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+                " (" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_DIAGNOSIS + " TEXT," +
+                COLUMN_VET_VISIT_IDFK + " INTEGER," +
+                COLUMN_CAT_IDFK + " INTEGER," +
+                "FOREIGN KEY (" + COLUMN_VET_VISIT_IDFK + ") REFERENCES " +
+                VetVisitsTable.TABLE_NAME + "(" + VetVisitsTable._ID + ")," +
+                "FOREIGN KEY (" + COLUMN_CAT_IDFK + ") REFERENCES " +
+                CatsTable.TABLE_NAME + "(" + CatsTable._ID + "))";
+    }
 }
