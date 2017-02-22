@@ -23,6 +23,7 @@ public class VaccinesActivity extends CatDataActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listView = (ListView) findViewById(R.id.vaccines_list);
+        registerForContextMenu(listView);
         loadDataWithCursor();
 
         //these will not be needed once CatDataActivity is extended

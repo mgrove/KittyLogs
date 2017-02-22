@@ -12,9 +12,13 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ public class VisitProfileActivity extends AppCompatActivity {
     TextView dateTextView;
     ListView vaccinesListView;
     ListView diagnosesListView;
+    String selectedTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class VisitProfileActivity extends AppCompatActivity {
     private void setVariables(){
         vaccinesListView = (ListView) findViewById(R.id.visit_vaccine_list);
         diagnosesListView = (ListView) findViewById(R.id.visit_diagnosis_list);
+        registerForContextMenu(vaccinesListView);
+        registerForContextMenu(diagnosesListView);
         aHelper = new DBHelper(getApplicationContext());
         setCatAndVet();
         Log.d("Vet ID:", Long.toString(visitID));
@@ -165,6 +172,63 @@ public class VisitProfileActivity extends AppCompatActivity {
         diagnosesCursorAdapter = new VisitProfileActivity.DiagnosesCursorAdapter(this, diagnosesCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         diagnosesListView.setAdapter(diagnosesCursorAdapter);
         aHelper.close();
+    }
+
+
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        switch(v.getId()){
+            case R.id.visit_vaccine_list:
+                selectedTable = KittyLogsContract.VaccinesTable.TABLE_NAME;
+                break;
+            case R.id.visit_diagnosis_list:
+                selectedTable = KittyLogsContract.DiagnosesTable.TABLE_NAME;
+                break;
+        }
+        inflater.inflate(R.menu.menu_delete, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.cnt_mnu_delete:
+                makeDeleteDialog(info.id, aHelper);
+                break;
+        }
+        return true;
+    }
+
+    protected void makeDeleteDialog(final long rowID, final DBHelper aHelper) {
+        AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this);
+        makeDeleteMessage(deleteDialogBuilder);
+        setDeleteButtons(deleteDialogBuilder, rowID, aHelper);
+        AlertDialog deleteDialog = deleteDialogBuilder.create();
+        deleteDialog.show();
+    }
+
+    private void makeDeleteMessage(AlertDialog.Builder deleteDialogBuilder){
+        final String deleteMessageString = this.getString(R.string.delete_dialog_message) + " this?";
+        deleteDialogBuilder.setMessage(deleteMessageString)
+                .setTitle(R.string.delete_dialog_title);
+    }
+
+    private void setDeleteButtons(AlertDialog.Builder deleteDialogBuilder, final long rowID, final DBHelper aHelper){
+        deleteDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteEntryWithMenu(rowID);
+            }
+        });
+        deleteDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){}
+        });
+    }
+
+    protected void deleteEntryWithMenu(final long rowID){
+        aHelper.removeEntryFromDB(rowID, selectedTable);
+        loadVaccineDataWithCursor();
+        loadDiagnosisDataWithCursor();
     }
 
 
