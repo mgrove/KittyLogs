@@ -15,15 +15,21 @@
     tools:context="com.mycompany.kittylogs.VisitProfileActivity"
     tools:showIn="@layout/activity_visit_profile">
 
-    <TextView
-        android:id="@+id/visit_profile_vet_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/visit_profile_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-
+        <TextView
+            android:id="@+id/visit_profile_vet_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="match_parent"
@@ -38,5 +44,19 @@
         android:text="New vaccine"
         android:hint="Name"
         android:onClick="openAddVaccineDialog" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/visit_diagnosis_list">
+    </ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_diagnosis_button"
+        android:text="New diagnosis"
+        android:hint="Name"
+        android:onClick="openAddDiagnosisDialog" />
 
 </LinearLayout>
