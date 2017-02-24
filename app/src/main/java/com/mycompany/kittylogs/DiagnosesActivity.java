@@ -22,7 +22,7 @@ public class DiagnosesActivity extends CatDataActivity {
         super.onCreate(savedInstanceState);
         listView = (ListView) findViewById(R.id.diagnoses_list);
         loadDataWithCursor();
-        
+
     }
 
     protected String getMainTableName(){

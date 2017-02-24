@@ -103,6 +103,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(KittyLogsContract.VetVisitsTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.VaccinesTable.CREATE_TABLE);
         db.execSQL(KittyLogsContract.DiagnosesTable.CREATE_TABLE);
+        db.execSQL(KittyLogsContract.ProceduresTable.CREATE_TABLE);
+
 
 
         Log.d("Food SQL", KittyLogsContract.FoodTable.CREATE_TABLE);
