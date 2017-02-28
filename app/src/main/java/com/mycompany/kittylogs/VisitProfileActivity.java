@@ -29,6 +29,8 @@ public class VisitProfileActivity extends AppCompatActivity {
     private VaccinesCursorAdapter vaccinesCursorAdapter;
     private Cursor diagnosesCursor;
     private DiagnosesCursorAdapter diagnosesCursorAdapter;
+    private Cursor proceduresCursor;
+    private ProceduresCursorAdapter proceduresCursorAdapter;
 
     long catID;
     long visitID;
@@ -39,7 +41,9 @@ public class VisitProfileActivity extends AppCompatActivity {
     TextView dateTextView;
     ListView vaccinesListView;
     ListView diagnosesListView;
+    ListView proceduresListView;
     String selectedTable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +54,13 @@ public class VisitProfileActivity extends AppCompatActivity {
         setVetAndDateTextView();
         loadVaccineDataWithCursor();
         loadDiagnosisDataWithCursor();
+        loadProcedureDataWithCursor();
     }
 
     private void setVariables(){
         vaccinesListView = (ListView) findViewById(R.id.visit_vaccine_list);
         diagnosesListView = (ListView) findViewById(R.id.visit_diagnosis_list);
+        proceduresListView = (ListView) findViewById(R.id.visit_procedure_list);
         registerForContextMenu(vaccinesListView);
         registerForContextMenu(diagnosesListView);
         aHelper = new DBHelper(getApplicationContext());
@@ -72,11 +78,11 @@ public class VisitProfileActivity extends AppCompatActivity {
 
     private void setVetAndDateTextView(){
         dateTextView = (TextView) findViewById(R.id.visit_profile_date);
-        dateTextView.setTextSize(40);
+        dateTextView.setTextSize(30);
         dateTextView.setText(date);
 
         vetNameTextView = (TextView)findViewById(R.id.visit_profile_vet_name);
-        vetNameTextView.setTextSize(30);
+        vetNameTextView.setTextSize(20);
         vetNameTextView.setText(vetName);
 
     }
@@ -105,7 +111,7 @@ public class VisitProfileActivity extends AppCompatActivity {
     }
 
     private void setAddVaccineButtons(AlertDialog.Builder builder, final EditText input){
-        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Add vaccine", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
                 aHelper.addEntryToDB(makeVaccineContentValues(value), KittyLogsContract.VaccinesTable.TABLE_NAME);
@@ -145,7 +151,7 @@ public class VisitProfileActivity extends AppCompatActivity {
     }
 
     private void setAddDiagnosisButtons(AlertDialog.Builder builder, final EditText input){
-        builder.setPositiveButton("Add note", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Add diagnosis", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String value = input.getText().toString();
                 aHelper.addEntryToDB(makeDiagnosisContentValues(value), KittyLogsContract.DiagnosesTable.TABLE_NAME);
@@ -171,6 +177,46 @@ public class VisitProfileActivity extends AppCompatActivity {
         diagnosesCursor = aHelper.getTableCursorForCatAndVisitFromDB(KittyLogsContract.DiagnosesTable.TABLE_NAME, KittyLogsContract.DiagnosesTable.COLUMN_CAT_IDFK, catID, KittyLogsContract.DiagnosesTable.COLUMN_VET_VISIT_IDFK, visitID);
         diagnosesCursorAdapter = new VisitProfileActivity.DiagnosesCursorAdapter(this, diagnosesCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         diagnosesListView.setAdapter(diagnosesCursorAdapter);
+        aHelper.close();
+    }
+
+    public void openAddProcedureDialog(View view){
+        AlertDialog.Builder addDialogBuilder = new AlertDialog.Builder(this);
+        addDialogBuilder.setTitle("New Procedure");
+        final EditText input = new EditText(this);
+        addDialogBuilder.setView(input);
+        setAddProcedureButtons(addDialogBuilder, input);
+        AlertDialog addDialog = addDialogBuilder.create();
+        addDialog.show();
+    }
+
+    private void setAddProcedureButtons(AlertDialog.Builder builder, final EditText input){
+        builder.setPositiveButton("Add procedure", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String value = input.getText().toString();
+                aHelper.addEntryToDB(makeProcedureContentValues(value), KittyLogsContract.ProceduresTable.TABLE_NAME);
+                Log.d("Diagnoses Table", DatabaseUtils.dumpCursorToString(aHelper.getTableCursorFromDB(KittyLogsContract.ProceduresTable.TABLE_NAME)));
+                loadProcedureDataWithCursor();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+    }
+
+    private ContentValues makeProcedureContentValues(String entry){
+        ContentValues values = new ContentValues();
+        values.put(KittyLogsContract.ProceduresTable.COLUMN_PROCEDURE, entry);
+        values.put(KittyLogsContract.ProceduresTable.COLUMN_CAT_IDFK, catID);
+        values.put(KittyLogsContract.ProceduresTable.COLUMN_VET_VISIT_IDFK, visitID);
+        return values;
+    }
+
+    protected void loadProcedureDataWithCursor(){
+        proceduresCursor = aHelper.getTableCursorForCatAndVisitFromDB(KittyLogsContract.ProceduresTable.TABLE_NAME, KittyLogsContract.ProceduresTable.COLUMN_CAT_IDFK, catID, KittyLogsContract.ProceduresTable.COLUMN_VET_VISIT_IDFK, visitID);
+        proceduresCursorAdapter = new VisitProfileActivity.ProceduresCursorAdapter(this, proceduresCursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        proceduresListView.setAdapter(proceduresCursorAdapter);
         aHelper.close();
     }
 
@@ -229,6 +275,7 @@ public class VisitProfileActivity extends AppCompatActivity {
         aHelper.removeEntryFromDB(rowID, selectedTable);
         loadVaccineDataWithCursor();
         loadDiagnosisDataWithCursor();
+        loadProcedureDataWithCursor();
     }
 
 
@@ -270,6 +317,29 @@ public class VisitProfileActivity extends AppCompatActivity {
             TextView diagnosisTextView = (TextView) view.findViewById(R.id.small_basic_row_view);
             String name = cursor.getString(cursor.getColumnIndex(KittyLogsContract.DiagnosesTable.COLUMN_DIAGNOSIS));
             diagnosisTextView.setText(name);
+        }
+
+        public View newView(Context context, Cursor cursor, ViewGroup parent){
+            return cursorInflater.from(context).inflate(R.layout.small_basic_row_view, parent, false);
+        }
+
+    }
+
+    public class ProceduresCursorAdapter extends CursorAdapter {
+
+        private LayoutInflater cursorInflater;
+        private final Context context;
+
+        protected ProceduresCursorAdapter(Context context, Cursor cursor, int flags){
+            super(context, cursor, flags);
+            this.context = context;
+            cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void bindView(View view, Context context, Cursor cursor){
+            TextView procedureTextView = (TextView) view.findViewById(R.id.small_basic_row_view);
+            String name = cursor.getString(cursor.getColumnIndex(KittyLogsContract.ProceduresTable.COLUMN_PROCEDURE));
+            procedureTextView.setText(name);
         }
 
         public View newView(Context context, Cursor cursor, ViewGroup parent){
